@@ -10,7 +10,7 @@
   "files": [
     "dist/**/*"
   ],
-  "browserVariableName": "CustomGlobalNamespace",
+  "browserVariableName": "UseReactService",
   "sideEffects": false,
   "homepage": "https://github.com/kaokei/use-react-service",
   "author": "kaokei",
