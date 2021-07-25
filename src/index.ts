@@ -2,6 +2,8 @@ import { SafeAny } from './types/index';
 
 const logger: SafeAny = 'my-logger';
 
+import { unstable_useMutableSource } from 'react';
+
 export class Math {
   static uid = 'MyMath';
 
