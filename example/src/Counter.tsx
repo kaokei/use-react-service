@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { observer } from '../../src/observer';
+import { observer } from '../../src/observer123';
 
 import { reactive } from '@vue/reactivity';
 
