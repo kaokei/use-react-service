@@ -1,29 +1,6 @@
-import { SafeAny } from './types/index';
+export * from '@vue/reactivity';
 
-const logger: SafeAny = 'my-logger';
-
-import { unstable_useMutableSource } from 'react';
-
-export class Math {
-  static uid = 'MyMath';
-
-  static add(a: number, b: number) {
-    return a + b;
-  }
-
-  static subtract(a: number, b: number) {
-    return a - b;
-  }
-
-  static multiply(a: number, b: number) {
-    return a * b;
-  }
-
-  static divide(a: number, b: number) {
-    return a / b;
-  }
-
-  static log(msg: any) {
-    console.log(logger, msg);
-  }
-}
+export { useService } from './useService';
+export { observer } from './observer';
+export { watch, watchEffect } from './watch';
+export { computed } from './computed';
