@@ -32,7 +32,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'no-debugger': 2,
+    'no-debugger': 0,
     'no-console': 0,
     'ban-ts-ignore': 0,
     'react/prop-types': 0,

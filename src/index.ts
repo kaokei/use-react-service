@@ -4,3 +4,4 @@ export { useService } from './useService';
 export { observer } from './observer';
 export { watch, watchEffect } from './watch';
 export { computed } from './computed';
+export { useReactive, useReactiveRef } from './hooks';

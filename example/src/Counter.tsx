@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { observer } from '../../src/observer123';
+import { observer } from '../../src/observer';
+import { useReactiveState } from '../../src/hooks';
 
-import { reactive } from '@vue/reactivity';
+function Counter1() {
+  console.log('Counter1 render :>> ');
+  const person = useReactiveState({ count: 1 });
 
-function Counter() {
-  const person = reactive({ count: 1 });
+  console.log('person.count :>> ', person.count);
 
   const add1 = () => {
     person.count++;
@@ -20,4 +22,4 @@ function Counter() {
   );
 }
 
-export default observer(Counter);
+export default observer(Counter1);
