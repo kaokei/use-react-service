@@ -43,10 +43,11 @@ function createConfig(fileSuffix) {
     sourcemap: true,
     externalLiveBindings: false,
     globals: {
-      // 暂时没有用上globals
       postcss: 'postcss',
       jquery: '$',
-      '@rollup/plugin-babel': 'helloWorldPluginBabel',
+      react: 'React',
+      '@vue/reactivity': 'VueReactivity',
+      'react/jsx-runtime': 'jsxRuntime',
     },
   };
 
@@ -62,13 +63,17 @@ function createConfig(fileSuffix) {
 
   let entryFile = `src/index.ts`;
 
-  // 这样写意味着不会打包任何npm包了
+  // 强制打包的依赖npm包
+  const MUST_INCLUDE_NPM = ['@kaokei/di'];
+
+  // 默认不会打包任何npm包，除了MUST_INCLUDE_NPM
   let external = [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.devDependencies || {}),
     ...Object.keys(pkg.peerDependencies || {}),
     ...['path', 'url', 'stream', 'fs', 'os'],
-  ];
+    ...['react/jsx-runtime'],
+  ].filter(k => !MUST_INCLUDE_NPM.includes(k));
 
   const minifyPlugins = isProductionBuild
     ? [createMinifyPlugin(isESBuild)]
