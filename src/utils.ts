@@ -1,4 +1,4 @@
-import { proxyRefs, reactive, ref } from 'vue';
+import { proxyRefs, reactive, ref } from '@vue/reactivity';
 import { Injector } from '@kaokei/di';
 
 export function has(obj: any, key: string) {

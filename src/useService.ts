@@ -1,8 +1,7 @@
-import { injectFromSelf } from './fakeInject';
+import { useContext } from 'react';
+import { Ref } from '@vue/reactivity';
 
-import { INJECTOR_KEY, DEFAULT_INJECTOR } from './constants';
-
-import { Ref } from 'vue';
+import { SERVICE_CONTEXT } from './constants';
 
 type Ret<T> = T extends new (...args: any) => infer S
   ? S
@@ -17,7 +16,7 @@ export function useService<R, T = unknown>(
   options?: any
 ): T extends R ? Ret<T> : Ret<R>;
 export function useService(Service: any, options?: any) {
-  const currentInjector = injectFromSelf(INJECTOR_KEY, DEFAULT_INJECTOR);
+  const currentInjector = useContext(SERVICE_CONTEXT);
   if (Array.isArray(Service)) {
     return Service.map(s => currentInjector.get(s, options));
   }
