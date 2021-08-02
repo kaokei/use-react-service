@@ -7,3 +7,7 @@
 watch 功能其实和 useEffect 已经非常相似了。
 
 ## 支持 class component
+
+## 生命周期
+
+主要是 destroy，卸载资源
