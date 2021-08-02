@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 
 import { observer } from '../../src/observer';
-import { useReactiveState, useReactiveRef } from '../../src/hooks';
+import { useReactiveState, useReactiveRef, useSetup } from '../../src/hooks';
 import { computed } from '../../src/computed';
+import { reactive, ref } from '@vue/reactivity';
 
 function Counter() {
   const counter1 = useReactiveState({ count: 1 });
@@ -18,6 +19,7 @@ function Counter() {
     counter2.value.count++;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [counter3, setCounter3] = useState({ count: 1 });
 
   const add3 = () => {
@@ -37,6 +39,26 @@ function Counter() {
     return counter1.count + 100;
   });
 
+  const setupState = useSetup(() => {
+    const counter6 = reactive({ count: 1 });
+    const counter7 = ref({ count: 1 });
+
+    const add6 = () => {
+      counter6.count++;
+    };
+
+    const add7 = () => {
+      counter7.value.count++;
+    };
+
+    return {
+      counter6,
+      counter7,
+      add6,
+      add7,
+    };
+  });
+
   return (
     <div className="Counter">
       <button type="button" onClick={add1}>
@@ -52,6 +74,12 @@ function Counter() {
         useRef : {counter4.current.count}
       </button>
       <span>count5: {count5.value}</span>
+      <button type="button" onClick={setupState.add6}>
+        setupState counter6 reactive : {setupState.counter6.count}
+      </button>
+      <button type="button" onClick={setupState.add7}>
+        setupState counter7 ref : {setupState.counter7.count}
+      </button>
     </div>
   );
 }
