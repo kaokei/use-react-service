@@ -30,6 +30,9 @@ export function useProviders(providers: any[]) {
 }
 
 export function useSetup(setup: any) {
+  if (__DEV__) {
+    console.log('useSetup inside dev');
+  }
   const inst: any = useRef();
   if (inst.current === void 0) {
     const setupState = setup();
