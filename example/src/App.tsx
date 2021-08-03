@@ -4,6 +4,7 @@ import './App.css';
 
 import Counter from './Counter';
 import CounterWithContext from './CounterWithContext';
+import CounterWithClass from './CounterWithClass';
 
 import { COUNTER_CONTEXT } from './constants';
 
@@ -39,6 +40,9 @@ function App() {
         <button type="button" onClick={() => forceUpdate()}>
           forceUpdate
         </button>
+      </div>
+      <div>
+        <CounterWithClass></CounterWithClass>
       </div>
     </div>
   );
