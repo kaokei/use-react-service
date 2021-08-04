@@ -32,8 +32,8 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'no-debugger': 0,
-    'no-console': 0,
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
     'ban-ts-ignore': 0,
     'react/prop-types': 0,
     'react/display-name': 0,
@@ -46,7 +46,7 @@ module.exports = {
   overrides: [
     //定制一组文件的规则
     {
-      files: ['types/**/*.ts'],
+      files: ['src/types/**/*.ts'],
       rules: {
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 0,
