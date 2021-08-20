@@ -1,5 +1,11 @@
-import { useContext, useRef } from 'react';
-import { reactive, ref, proxyRefs } from '@vue/reactivity';
+import { useContext, useEffect, useRef } from 'react';
+import {
+  reactive,
+  ref,
+  proxyRefs,
+  effectScope,
+  EffectScope,
+} from '@vue/reactivity';
 
 import { SERVICE_CONTEXT } from './constants';
 import { getInjector } from './utils';
@@ -20,7 +26,7 @@ export function useReactiveRef(obj: any) {
   return inst.current;
 }
 
-export function useProviders(providers: any[]) {
+export function useInjector(providers: any[]) {
   const inst: any = useRef();
   const ctx = useContext(SERVICE_CONTEXT);
   if (inst.current === void 0) {
@@ -29,14 +35,23 @@ export function useProviders(providers: any[]) {
   return inst.current;
 }
 
-export function useSetup(setup: any) {
-  if (__DEV__) {
-    console.log('useSetup inside dev');
-  }
+export function useSetup(setupFn: any) {
   const inst: any = useRef();
+  let scope: EffectScope;
+  useEffect(
+    () => () => {
+      scope && scope.stop();
+    },
+    []
+  );
+
   if (inst.current === void 0) {
-    const setupState = setup();
-    inst.current = proxyRefs(setupState);
+    scope = effectScope();
+    scope.run(() => {
+      const setupState = setupFn();
+      inst.current = proxyRefs(setupState);
+    });
   }
+
   return inst.current;
 }
