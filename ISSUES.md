@@ -21,3 +21,13 @@ watch 功能其实和 useEffect 已经非常相似了。
 ## 生命周期
 
 主要是 destroy，卸载资源
+
+## 最终结论
+
+不再提供 watch/watchEffect 功能
+
+不再提供生命周期钩子
+
+这个库本身只是提供@vue/reactivity 中的功能
+
+缺失的 watch/watchEffect 和生命周期钩子全部由 react 原生的 useEffect 来提供
