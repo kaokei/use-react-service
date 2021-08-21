@@ -4,11 +4,11 @@ import { effect, ReactiveEffectRunner, stop } from '@vue/reactivity';
 import { SERVICE_CONTEXT } from './constants';
 import { useInjector } from './hooks';
 
-const onTrackNoop = () => {
-  console.log('onTrackNoop :>> ');
+const onTrackNoop = (event: any) => {
+  console.log('onTrackNoop :>> ', event);
 };
-const onTriggerNoop = () => {
-  console.log('onTriggerNoop :>> ');
+const onTriggerNoop = (event: any) => {
+  console.log('onTriggerNoop :>> ', event);
 };
 
 export function observer(providers?: any[]) {
@@ -26,7 +26,10 @@ export function observer(providers?: any[]) {
           lazy: true,
           onTrack: onTrackNoop,
           onTrigger: onTriggerNoop,
-          scheduler: () => update(),
+          scheduler: () => {
+            console.log('scheduler exec :');
+            update();
+          },
         });
       }
 

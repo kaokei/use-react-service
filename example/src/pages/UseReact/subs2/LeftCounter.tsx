@@ -9,7 +9,7 @@ export default function LeftCounter() {
       <div>
         <b>LeftCounter: </b>
         <button type="button" onClick={counter.add}>
-          自增
+          自增 - 注意点击按钮无效
         </button>
         <span>count=</span>
         <span>{counter.count}</span>

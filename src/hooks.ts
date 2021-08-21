@@ -13,7 +13,7 @@ import { getInjector } from './utils';
 export function useReactiveState(obj: any) {
   const inst: any = useRef();
   if (inst.current === undefined) {
-    inst.current = reactive(obj);
+    inst.current = reactive(typeof obj === 'function' ? obj() : obj);
   }
   return inst.current;
 }
@@ -21,7 +21,7 @@ export function useReactiveState(obj: any) {
 export function useReactiveRef(obj: any) {
   const inst: any = useRef();
   if (inst.current === void 0) {
-    inst.current = ref(obj);
+    inst.current = ref(typeof obj === 'function' ? obj() : obj);
   }
   return inst.current;
 }
