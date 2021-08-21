@@ -1,12 +1,18 @@
 import React from 'react';
 import './App.css';
 
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from 'react-router-dom';
 
 import UseReact from './pages/UseReact/UseReact';
 import UseVue from './pages/UseVue/UseVue';
 import UseService from './pages/UseService/UseService';
 import UseSetup from './pages/UseSetup/UseSetup';
+import Lifecycle from './pages/Lifecycle/Lifecycle';
 
 export default function App() {
   return (
@@ -15,19 +21,34 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <NavLink activeClassName="selected" exact to="/">Home</NavLink>
+              <NavLink activeClassName="selected" exact to="/">
+                Home
+              </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="selected" to="/UseReact">完全使用react实现的demo</NavLink>
+              <NavLink activeClassName="selected" to="/UseReact">
+                完全使用react实现的demo
+              </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="selected" to="/UseVue">直接使用useReactiveState和useReactiveVue</NavLink>
+              <NavLink activeClassName="selected" to="/UseVue">
+                直接使用useReactiveState和useReactiveVue
+              </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="selected" to="/UseSetup">使用useSetup这个hooks</NavLink>
+              <NavLink activeClassName="selected" to="/UseSetup">
+                使用useSetup这个hooks
+              </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="selected" to="/UseService">使用useService这个hooks</NavLink>
+              <NavLink activeClassName="selected" to="/UseService">
+                使用useService这个hooks
+              </NavLink>
+            </li>
+            <li>
+              <NavLink activeClassName="selected" to="/Lifecycle">
+                使用useService和useEffect
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -46,6 +67,9 @@ export default function App() {
           </Route>
           <Route path="/UseService">
             <UseService />
+          </Route>
+          <Route path="/Lifecycle">
+            <Lifecycle />
           </Route>
           <Route path="/">
             <Home />

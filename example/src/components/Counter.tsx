@@ -84,4 +84,4 @@ function Counter() {
   );
 }
 
-export default observer()(Counter);
+export default observer(Counter);

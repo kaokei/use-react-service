@@ -19,4 +19,4 @@ export function RightCounter3() {
   );
 }
 
-export default observer()(RightCounter3);
+export default observer(RightCounter3);

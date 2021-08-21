@@ -38,4 +38,4 @@ export function LeftCounter() {
   );
 }
 
-export default observer()(LeftCounter);
+export default observer(LeftCounter);

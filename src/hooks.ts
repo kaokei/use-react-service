@@ -28,9 +28,12 @@ export function useReactiveRef(obj: any) {
 
 export function useInjector(providers: any[]) {
   const inst: any = useRef();
-  const ctx = useContext(SERVICE_CONTEXT);
+  const parentInjector = useContext(SERVICE_CONTEXT);
   if (inst.current === void 0) {
-    inst.current = getInjector(providers, ctx);
+    inst.current =
+      providers && providers.length > 0
+        ? getInjector(providers, parentInjector)
+        : parentInjector;
   }
   return inst.current;
 }

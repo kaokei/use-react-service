@@ -23,4 +23,4 @@ export function RightCounter4() {
   );
 }
 
-export default observer()(RightCounter4);
+export default observer(RightCounter4);
