@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { COUNTER_CONTEXT } from './constants';
+import { COUNTER_CONTEXT } from '../constants';
 
 function Counter() {
   const counter1 = useContext(COUNTER_CONTEXT);

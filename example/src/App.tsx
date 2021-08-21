@@ -1,51 +1,61 @@
-import React, { useRef, useReducer } from 'react';
-// import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 
-import Counter from './Counter';
-import CounterWithContext from './CounterWithContext';
-import CounterWithClass from './CounterWithClass';
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
-import { COUNTER_CONTEXT } from './constants';
+import UseReact from './pages/UseReact/UseReact';
+import UseVue from './pages/UseVue/UseVue';
+import UseService from './pages/UseService/UseService';
+import UseSetup from './pages/UseSetup/UseSetup';
 
-function App() {
-  const [, forceUpdate] = useReducer(s => s + 1, 0);
-  const ctx = useRef({ count: 100 });
-
-  const add1 = () => {
-    ctx.current.count++;
-  };
-  const replace1 = () => {
-    ctx.current = {
-      count: ctx.current.count + 1,
-    };
-  };
-
+export default function App() {
   return (
-    <div className="App">
+    <Router>
       <div>
-        <Counter></Counter>
-      </div>
-      <div>
-        <COUNTER_CONTEXT.Provider value={ctx.current}>
-          <CounterWithContext></CounterWithContext>
-        </COUNTER_CONTEXT.Provider>
+        <nav>
+          <ul>
+            <li>
+              <NavLink activeClassName="selected" exact to="/">Home</NavLink>
+            </li>
+            <li>
+              <NavLink activeClassName="selected" to="/UseReact">完全使用react实现的demo</NavLink>
+            </li>
+            <li>
+              <NavLink activeClassName="selected" to="/UseVue">直接使用useReactiveState和useReactiveVue</NavLink>
+            </li>
+            <li>
+              <NavLink activeClassName="selected" to="/UseSetup">使用useSetup这个hooks</NavLink>
+            </li>
+            <li>
+              <NavLink activeClassName="selected" to="/UseService">使用useService这个hooks</NavLink>
+            </li>
+          </ul>
+        </nav>
 
-        <button type="button" onClick={add1}>
-          useRef mutable 修改 Provider value
-        </button>
-        <button type="button" onClick={replace1}>
-          useRef immutable 替换 Provider value
-        </button>
-        <button type="button" onClick={() => forceUpdate()}>
-          forceUpdate
-        </button>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/UseReact">
+            <UseReact />
+          </Route>
+          <Route path="/UseVue">
+            <UseVue />
+          </Route>
+          <Route path="/UseSetup">
+            <UseSetup />
+          </Route>
+          <Route path="/UseService">
+            <UseService />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
-      <div>
-        <CounterWithClass></CounterWithClass>
-      </div>
-    </div>
+    </Router>
   );
 }
 
-export default App;
+function Home() {
+  return <h2>请选择各种例子查看效果</h2>;
+}
