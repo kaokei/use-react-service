@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { observer, useSetup, reactive, computed } from '../../../../src';
 
-export function LeftCounter() {
+export function RightCounter() {
   const { countReactive, countComputed } = useSetup(() => {
     const countReactive = reactive({
       count: 1,
@@ -26,10 +26,7 @@ export function LeftCounter() {
   return (
     <div>
       <div>
-        <b>LeftCounter: </b>
-        <button type="button" onClick={add}>
-          自增
-        </button>
+        <b>RightCounter: </b>
         <span>countRef=</span>
         <span style={{ marginRight: 20 }}>{countReactive.count}</span>
 
@@ -37,10 +34,14 @@ export function LeftCounter() {
         <span style={{ marginRight: 20 }}>{countComputed}</span>
 
         <span>countMemo=</span>
-        <span>{countMemo}</span>
+        <span style={{ marginRight: 20 }}>{countMemo}</span>
+
+        <button type="button" onClick={add}>
+          自增
+        </button>
       </div>
     </div>
   );
 }
 
-export default observer()(LeftCounter);
+export default observer(RightCounter);

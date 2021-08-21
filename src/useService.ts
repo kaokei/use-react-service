@@ -24,6 +24,12 @@ export function useService(Service: any, options?: any) {
   const inst: any = useRef();
   const currentInjector = useContext(SERVICE_CONTEXT);
 
+  console.log(
+    'useService currentInjector and SERVICE_CONTEXT :>> ',
+    currentInjector,
+    SERVICE_CONTEXT
+  );
+
   if (inst.current === void 0) {
     inst.current = getService(currentInjector, Service, options);
   }
