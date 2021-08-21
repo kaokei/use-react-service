@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 
-import { observer } from '../../src/observer';
-import { useReactiveState, useReactiveRef, useSetup } from '../../src/hooks';
-import { computed } from '../../src/computed';
+import { observer } from '../../../src/observer';
+import { useReactiveState, useReactiveRef, useSetup } from '../../../src/hooks';
+import { computed } from '../../../src';
 import { reactive, ref } from '@vue/reactivity';
 
 function Counter() {
