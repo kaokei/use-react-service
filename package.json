@@ -1,6 +1,6 @@
 {
   "name": "@kaokei/use-react-service",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "jsbridge for iframes or windows by window.postMessage",
   "main": "./dist/index.cjs.runtime.min.js",
   "module": "./dist/index.esm.runtime.min.js",
