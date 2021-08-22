@@ -41,7 +41,7 @@
     "example:build": "npm run build --prefix example"
   },
   "dependencies": {
-    "@kaokei/di": "^1.0.18",
+    "@kaokei/di": "^1.0.20",
     "@vue/reactivity": "^3.2.0"
   },
   "peerDependencies": {
