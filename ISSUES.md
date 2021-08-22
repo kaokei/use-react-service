@@ -31,9 +31,3 @@ watch 功能其实和 useEffect 已经非常相似了。
 这个库本身只是提供@vue/reactivity 中的功能
 
 缺失的 watch/watchEffect 和生命周期钩子全部由 react 原生的 useEffect 来提供
-
-
-## 待办
-auto-bind
-generator-kaokei 改为 generator-hetao
-完善文档，支持国际化
