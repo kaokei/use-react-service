@@ -48,6 +48,7 @@ function createConfig(fileSuffix) {
       react: 'React',
       '@vue/reactivity': 'VueReactivity',
       'react/jsx-runtime': 'jsxRuntime',
+      '@kaokei/di': 'DI',
     },
   };
 
@@ -64,7 +65,7 @@ function createConfig(fileSuffix) {
   let entryFile = `src/index.ts`;
 
   // 强制打包的依赖npm包
-  const MUST_INCLUDE_NPM = ['@kaokei/di'];
+  const MUST_INCLUDE_NPM = [];
 
   // 默认不会打包任何npm包，除了MUST_INCLUDE_NPM
   let external = [
