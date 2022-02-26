@@ -12,7 +12,7 @@ import { getInjector } from './utils';
 
 export function useReactiveState(obj: any) {
   const inst: any = useRef();
-  if (inst.current === undefined) {
+  if (inst.current === void 0) {
     inst.current = reactive(typeof obj === 'function' ? obj() : obj);
   }
   return inst.current;

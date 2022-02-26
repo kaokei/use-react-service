@@ -28,9 +28,9 @@ export function observer(providers: any[] | any) {
 export function observerWithProviders(providers?: any[]) {
   return (component: any) => {
     return memo((props: any) => {
-      const currentInjector = useInjector(providers || []);
-
       const inst = useRef<ReactiveEffectRunner<any>>();
+
+      const currentInjector = useInjector(providers || []);
 
       const [, update] = useReducer(s => s + 1, 0);
 
@@ -42,19 +42,14 @@ export function observerWithProviders(providers?: any[]) {
           onTrack: onTrackNoop,
           onTrigger: onTriggerNoop,
           scheduler: () => {
-            console.log('scheduler exec :');
             update();
           },
         });
       }
 
-      function Temp() {
-        return inst.current && inst.current();
-      }
-
       return (
         <SERVICE_CONTEXT.Provider value={currentInjector}>
-          <Temp></Temp>
+          {inst.current && inst.current()}
         </SERVICE_CONTEXT.Provider>
       );
     });
@@ -75,12 +70,13 @@ export function observerComponent(component: any) {
         onTrack: onTrackNoop,
         onTrigger: onTriggerNoop,
         scheduler: () => {
-          console.log('scheduler exec :');
+          // todo 这里的scheduler似乎和文档中的用法不一样
+          // todo 调研嵌套scheduler能不能解决根组件渲染的问题
           update();
         },
       });
     }
 
-    return inst.current();
+    return inst.current && inst.current();
   });
 }
