@@ -6,7 +6,7 @@ import {
 } from '@/index';
 
 describe('App', () => {
-  test('app1', async () => {
+  test('declareRootProviders and useRootService', async () => {
     const key1 = 'tokenKey1';
     const value1 = 'tokenValue1';
 
