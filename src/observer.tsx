@@ -72,6 +72,7 @@ export function observerComponent(component: any) {
         scheduler: () => {
           // todo 这里的scheduler似乎和文档中的用法不一样
           // todo 调研嵌套scheduler能不能解决根组件渲染的问题
+          // todo 在开发模式中如果组件没有observer则抛出异常
           update();
         },
       });
