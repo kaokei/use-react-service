@@ -4,8 +4,14 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
+    "types": ["vitest/globals"],
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
@@ -22,6 +28,5 @@
     "noFallthroughCasesInSwitch": true,
     // "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["src/**/*.ignore.ts"]
+  "include": ["tests/**/*.ts", "tests/**/*.tsx", "tests/**/*.vue"]
 }
