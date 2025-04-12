@@ -1,21 +1,16 @@
-import { useContext } from 'react';
+import {
+  useContext,
+  useSyncExternalStore,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import { CommonToken } from '@kaokei/di';
-import { hasOwn, bindProviders } from './utils';
-import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants';
-
-type DeepReadonly<T> = {
-  readonly [K in keyof T]: T[K] extends (...args: any[]) => any
-    ? (...args: Parameters<T[K]>) => ReturnType<T[K]>
-    : T[K] extends object
-      ? DeepReadonly<T[K]>
-      : T[K];
-};
-
-type Methods<T> = {
-  [K in keyof T as T[K] extends (...args: any[]) => any ? K : never]: T[K];
-};
-
-type ServiceType<T, S> = DeepReadonly<Methods<T> & S>;
+import { computed, watch, effectScope, ComputedRef } from '@vue/reactivity';
+import { hasOwn, bindProviders } from './utils.ts';
+import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants.ts';
+import type { ServiceType, Provider, SubscribeCallback } from './interface.ts';
 
 const createProxyHandler = (instance: any) => ({
   get(target: any, prop: string | symbol) {
@@ -41,13 +36,41 @@ export function useService<T, S extends object>(
   token: CommonToken<T>,
   selector: (service: T) => S
 ): ServiceType<T, S> {
-  // todo
-  // 目前虽然已经可以正常返回service对象了
-  // 但是还缺少watch selector，然后触发重新渲染组件
+  const update = useRef<null | SubscribeCallback>(null);
   const container = useContext(CONTAINER_CONTEXT);
-  const instance = container.get(token);
-  const selected = selector(instance);
-  const proxy = new Proxy(selected, createProxyHandler(instance));
+
+  const { instance, selected, scope } = useMemo(() => {
+    let instance!: T;
+    let selected!: ComputedRef<S>;
+    const scope = effectScope();
+    scope.run(() => {
+      instance = container.get(token);
+      selected = computed(() => selector(instance));
+      watch(selected, () => update.current?.());
+    });
+    return { instance, selected, scope };
+  }, [container, token, selector]);
+
+  const subscribe = useCallback((callback: SubscribeCallback) => {
+    update.current = callback;
+    return () => (update.current = null);
+  }, []);
+
+  const getSnapshot = useCallback(() => selected.value, [selected]);
+
+  const selectedData = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getSnapshot
+  );
+
+  const proxy = useMemo(
+    () => new Proxy(selectedData, createProxyHandler(instance)),
+    [selectedData, instance]
+  );
+
+  useEffect(() => () => scope.stop(), [scope]);
+
   return proxy as unknown as ServiceType<T, S>;
 }
 
@@ -55,6 +78,6 @@ export function useRootService<T>(token: CommonToken<T>) {
   return DEFAULT_CONTAINER.get(token);
 }
 
-export function declareRootProviders(providers: any) {
+export function declareRootProviders(providers: Provider) {
   bindProviders(DEFAULT_CONTAINER, providers);
 }

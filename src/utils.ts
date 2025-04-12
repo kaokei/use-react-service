@@ -1,6 +1,11 @@
-import { Container, type Newable } from '@kaokei/di';
+import { Container } from '@kaokei/di';
 import { reactive, markRaw } from '@vue/reactivity';
-import { CURRENT_CONTAINER } from './constants';
+import { CURRENT_CONTAINER } from './constants.ts';
+import type {
+  NewableProvider,
+  FunctionProvider,
+  Provider,
+} from './interface.ts';
 
 function isObject(val: object) {
   return val !== null && typeof val === 'object';
@@ -31,19 +36,6 @@ export function hasOwn(target: any, key: string | symbol) {
   return Object.prototype.hasOwnProperty.call(target, key);
 }
 
-type NewableProvider = Newable[];
-type FunctionProvider = (container: Container) => void;
-type Provider = NewableProvider | FunctionProvider;
-
-export function bindProviders(
-  container: Container,
-  providers: FunctionProvider
-): void;
-export function bindProviders(
-  container: Container,
-  providers: NewableProvider
-): void;
-export function bindProviders(container: Container, providers: Provider): void;
 export function bindProviders(container: Container, providers: Provider) {
   if (typeof providers === 'function') {
     providers(container);

@@ -6,7 +6,7 @@ export { CURRENT_CONTAINER } from './constants.ts';
 
 export { findService, findAllServices } from './find-service.ts';
 
-export { declareProviders } from './declareProviders.tsx';
+export { declareProviders } from './declare-providers.tsx';
 
 export { declareRootProviders, useService, useRootService } from './core.ts';
 

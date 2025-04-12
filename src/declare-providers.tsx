@@ -1,26 +1,34 @@
-import React from 'react';
-import { createContainer } from './utils';
-import { CONTAINER_CONTEXT } from './constants';
+import React, { useContext, useEffect } from 'react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import { createContainer, bindProviders } from './utils.ts';
+import { CONTAINER_CONTEXT } from './constants.ts';
+import type { Provider } from './interface.ts';
 
-export function declareProviders(providers: any) {
-  // 创建container实例
-  const container = createContainer(providers);
-
+export function declareProviders(providers: Provider) {
   return (WrappedComponent: any) => {
-    // 返回的新组件
-    const ConnectedComponent = (props: any) => (
-      <CONTAINER_CONTEXT.Provider value={container}>
-        <WrappedComponent {...props} />
-      </CONTAINER_CONTEXT.Provider>
-    );
+    const ConnectedComponent = (props: any) => {
+      const parentContainer = useContext(CONTAINER_CONTEXT);
 
-    // 设置displayName便于调试
+      const currentContainer = React.useMemo(() => {
+        const currentContainer = createContainer(parentContainer);
+        bindProviders(currentContainer, providers);
+        return currentContainer;
+      }, [parentContainer]);
+
+      useEffect(() => () => currentContainer.unbindAll(), [currentContainer]);
+
+      return (
+        <CONTAINER_CONTEXT.Provider value={currentContainer}>
+          <WrappedComponent {...props} />
+        </CONTAINER_CONTEXT.Provider>
+      );
+    };
+
     const name =
       WrappedComponent.displayName || WrappedComponent.name || 'Component';
     ConnectedComponent.displayName = `Connect(${name})`;
+    ConnectedComponent.WrappedComponent = WrappedComponent;
 
-    // todo: ref、hoist、React.memo
-
-    return ConnectedComponent;
+    return hoistNonReactStatics(ConnectedComponent, WrappedComponent);
   };
 }
