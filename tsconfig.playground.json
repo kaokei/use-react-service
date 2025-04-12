@@ -3,5 +3,5 @@
   "compilerOptions": {
     "module": "commonjs"
   },
-  "include": ["src", "playground", "typings"]
+  "include": ["src123", "playground", "typings"]
 }

@@ -1,55 +1,60 @@
-import {useContext} from 'react';
+import { useContext } from 'react';
+import { CommonToken } from '@kaokei/di';
+import { hasOwn, bindProviders } from './utils';
+import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants';
 
-// 类型定义 --------------------------------------------------------
 type DeepReadonly<T> = {
   readonly [K in keyof T]: T[K] extends (...args: any[]) => any
     ? (...args: Parameters<T[K]>) => ReturnType<T[K]>
-    : T[K] extends object ? DeepReadonly<T[K]> : T[K]
+    : T[K] extends object
+      ? DeepReadonly<T[K]>
+      : T[K];
 };
 
 type Methods<T> = {
-  [K in keyof T as T[K] extends (...args: any[]) => any ? K : never]: T[K]
+  [K in keyof T as T[K] extends (...args: any[]) => any ? K : never]: T[K];
 };
 
 type ServiceType<T, S> = DeepReadonly<Methods<T> & S>;
 
-// Proxy处理器 ----------------------------------------------------
-const createProxyHandler = (rawInstance: any) => ({
+const createProxyHandler = (instance: any) => ({
   get(target: any, prop: string | symbol) {
-    // 优先返回selector属性
-    if (prop in target.__selector) {
-      return target.__selector[prop];
+    let value;
+    if (hasOwn(target, prop)) {
+      value = target[prop];
+    } else {
+      value = Reflect.get(instance, prop);
     }
-
-    // 处理原型方法
-    const value = Reflect.get(target.__raw, prop);
     if (typeof value === 'function') {
-      return (...args: any[]) => value.apply(rawInstance, args);
+      return (...args: any[]) => value.apply(instance, args);
     }
     return value;
   },
 
   set() {
-    return false; // 完全禁止写操作
-  }
+    // 完全禁止写操作
+    return false;
+  },
 });
 
-// 实现函数 --------------------------------------------------------
-function useService<
-  T extends new (...args: any[]) => any,
-  S extends object
->(
-  ClassName: T,
-  selector?: (instance: InstanceType<T>) => S
-): ServiceType<InstanceType<T>, S> {
-  const rawInstance = new ClassName();
-  const selected = selector ? selector(rawInstance) : {} as S;
+export function useService<T, S extends object>(
+  token: CommonToken<T>,
+  selector: (service: T) => S
+): ServiceType<T, S> {
+  // todo
+  // 目前虽然已经可以正常返回service对象了
+  // 但是还缺少watch selector，然后触发重新渲染组件
+  const container = useContext(CONTAINER_CONTEXT);
+  const instance = container.get(token);
+  const selected = selector(instance);
+  const proxy = new Proxy(selected, createProxyHandler(instance));
+  return proxy as unknown as ServiceType<T, S>;
+}
 
-  // 创建代理对象
-  const proxy = new Proxy({
-    __raw: rawInstance,        // 原始实例引用
-    __selector: selected       // selector结果
-  }, createProxyHandler(rawInstance));
+export function useRootService<T>(token: CommonToken<T>) {
+  return DEFAULT_CONTAINER.get(token);
+}
 
-  return proxy as unknown as ServiceType<InstanceType<T>, S>;
+export function declareRootProviders(providers: any) {
+  bindProviders(DEFAULT_CONTAINER, providers);
 }

@@ -1,4 +1,4 @@
-import { computed, reactive } from '@vue/reactive';
+import { computed, reactive } from '@vue/reactivity';
 
 const map = new WeakMap<object, Map<string, any>>();
 

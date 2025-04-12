@@ -1,17 +1,13 @@
 export * from '@kaokei/di';
 
-export { CURRENT_COMPONENT, CURRENT_CONTAINER } from './constants';
+export * from '@vue/reactivity';
 
-export { findService, findAllServices } from './find-service';
+export { CURRENT_CONTAINER } from './constants.ts';
 
-export {
-  declareProviders,
-  declareAppProviders,
-  declareAppProvidersPlugin,
-  declareRootProviders,
-  useService,
-  useAppService,
-  useRootService,
-} from './core';
+export { findService, findAllServices } from './find-service.ts';
 
-export { Computed } from './computed';
+export { declareProviders } from './declareProviders.tsx';
+
+export { declareRootProviders, useService, useRootService } from './core.ts';
+
+export { Computed } from './computed.ts';

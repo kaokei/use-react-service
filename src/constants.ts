@@ -1,19 +1,14 @@
+import { createContext } from 'react';
 import { type Container, Token } from '@kaokei/di';
-import type { ComponentInternalInstance } from 'vue';
-import { createContainer } from './utils';
-
-// 给依赖注入库使用的token
-export const CURRENT_COMPONENT = new Token<ComponentInternalInstance>(
-  'USE_VUE_SERVICE_CURRENT_COMPONENT'
-);
+import { createContainer } from './utils.ts';
 
 // 给依赖注入库使用的token
 export const CURRENT_CONTAINER = new Token<Container>(
-  'USE_VUE_SERVICE_CURRENT_CONTAINER'
+  'USE_REACT_SERVICE_CURRENT_CONTAINER'
 );
-
-// 给vue的provide/inject使用的token
-export const CONTAINER_TOKEN = 'USE_VUE_SERVICE_CONTAINER_TOKEN';
 
 // 默认Container，对应declareRootProviders/useRootService
 export const DEFAULT_CONTAINER = createContainer();
+
+// 用于绑定组件和容器
+export const CONTAINER_CONTEXT = createContext(DEFAULT_CONTAINER);
