@@ -1,11 +1,7 @@
 import { Container } from '@kaokei/di';
 import { reactive, markRaw } from '@vue/reactivity';
 import { CURRENT_CONTAINER } from './constants.ts';
-import type {
-  NewableProvider,
-  FunctionProvider,
-  Provider,
-} from './interface.ts';
+import type { Provider } from './interface.ts';
 
 function isObject(val: object) {
   return val !== null && typeof val === 'object';

@@ -52,7 +52,7 @@
     "release:first": "standard-version --first-release"
   },
   "devDependencies": {
-    "@kaokei/di": "^3.0.5",
+    "@kaokei/di": "^3.0.6",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
