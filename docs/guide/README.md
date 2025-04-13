@@ -11,7 +11,7 @@
 ## 安装
 
 ```sh
-npm install @kaokei/di @kaokei/use-vue-service
+npm install @kaokei/di @kaokei/use-react-service
 ```
 
 本库 **不依赖** `reflect-metadata`，所以 **不需要** 安装这个 npm 包。
@@ -26,7 +26,7 @@ npm install @kaokei/di @kaokei/use-vue-service
 ```ts
 // 这个service.ts文件中定义了2个服务，LoggerService和CountService
 // 并且CountService依赖着LoggerService
-import { Inject } from '@kaokei/use-vue-service';
+import { Inject } from '@kaokei/use-react-service';
 
 export class LoggerService {
   public log(...msg: any[]) {
@@ -50,7 +50,7 @@ export class CountService {
 ```vue
 <script lang="ts" setup>
 // 这个组件使用了service.ts文件中定义的服务
-import { declareProviders, useService } from '@kaokei/use-vue-service';
+import { declareProviders, useService } from '@kaokei/use-react-service';
 import { CountService, LoggerService } from './service.ts';
 // 这行代码将CountService、LoggerService和当前组件进行了绑定
 declareProviders([CountService, LoggerService]);

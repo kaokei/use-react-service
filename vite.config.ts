@@ -8,13 +8,13 @@
 import { resolve } from 'path';
 import { writeFileSync } from 'fs';
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    react(),
     dts({
       // rollupTypes: true,
       tsconfigPath: './tsconfig.app.json',
@@ -30,7 +30,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
       },
-      name: 'UseVueService',
+      name: 'UseReactService',
       // the proper extensions will be added
       // fileName: (format, entryName) => `${entryName}.${format}.js`,
       formats: ['cjs', 'es'],
@@ -38,7 +38,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue', '@kaokei/di'],
+      external: ['react', '@vue/reactivity', '@kaokei/di'],
       output: {
         compact: true,
         // Provide global variables to use in the UMD build
@@ -53,7 +53,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
-      include: ['src/**/*.ts'],
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
       reporter: ['text', 'lcov'],
     },
   },

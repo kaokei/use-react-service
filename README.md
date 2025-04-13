@@ -1,13 +1,13 @@
-<h1 align="center">npm install @kaokei/use-vue-service</h1>
+<h1 align="center">npm install @kaokei/use-react-service</h1>
 
 <div align="center">
 
-[![Build Status](https://github.com/kaokei/use-vue-service/actions/workflows/build.yml/badge.svg)](https://github.com/kaokei/use-vue-service/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/kaokei/use-vue-service/badge.svg?branch=main)](https://coveralls.io/github/kaokei/use-vue-service?branch=main)
-[![Downloads](https://img.shields.io/npm/dm/@kaokei/use-vue-service.svg?sanitize=true)](https://npmcharts.com/compare/@kaokei/use-vue-service?minimal=true)
-[![Version](https://img.shields.io/npm/v/@kaokei/use-vue-service.svg?sanitize=true)](https://www.npmjs.com/package/@kaokei/use-vue-service)
-[![License](https://img.shields.io/npm/l/@kaokei/use-vue-service.svg?sanitize=true)](https://www.npmjs.com/package/@kaokei/use-vue-service)
-![GitHub Created At](https://img.shields.io/github/created-at/kaokei/use-vue-service?style=social)
+[![Build Status](https://github.com/kaokei/use-react-service/actions/workflows/build.yml/badge.svg)](https://github.com/kaokei/use-react-service/actions/workflows/build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/kaokei/use-react-service/badge.svg?branch=main)](https://coveralls.io/github/kaokei/use-react-service?branch=main)
+[![Downloads](https://img.shields.io/npm/dm/@kaokei/use-react-service.svg?sanitize=true)](https://npmcharts.com/compare/@kaokei/use-react-service?minimal=true)
+[![Version](https://img.shields.io/npm/v/@kaokei/use-react-service.svg?sanitize=true)](https://www.npmjs.com/package/@kaokei/use-react-service)
+[![License](https://img.shields.io/npm/l/@kaokei/use-react-service.svg?sanitize=true)](https://www.npmjs.com/package/@kaokei/use-react-service)
+![GitHub Created At](https://img.shields.io/github/created-at/kaokei/use-react-service?style=social)
 
 </div>
 
@@ -21,7 +21,7 @@
 - [API 文档](./docs/api/README.md)
 - [博客文章](./docs/note/01.父组件与子组件的理解.md)
 - [codesandbox example](https://codesandbox.io/s/di-playground-zjnyv)
-- [online demo](https://use-vue-service.vercel.app/)
+- [online demo](https://use-react-service.vercel.app/)
 
 
 ## 待修改的 5 个名字

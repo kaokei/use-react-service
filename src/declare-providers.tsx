@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import { Container } from '@kaokei/di';
+import { useContext, useEffect, useRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer, bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT } from './constants.ts';
@@ -8,17 +9,17 @@ export function declareProviders(providers: Provider) {
   return (WrappedComponent: any) => {
     const ConnectedComponent = (props: any) => {
       const parentContainer = useContext(CONTAINER_CONTEXT);
+      const currentContainer = useRef<Container>(null);
 
-      const currentContainer = React.useMemo(() => {
-        const currentContainer = createContainer(parentContainer);
-        bindProviders(currentContainer, providers);
-        return currentContainer;
-      }, [parentContainer]);
+      if (!currentContainer.current) {
+        currentContainer.current = createContainer(parentContainer);
+        bindProviders(currentContainer.current, providers);
+      }
 
-      useEffect(() => () => currentContainer.unbindAll(), [currentContainer]);
+      useEffect(() => () => currentContainer.current?.destroy(), []);
 
       return (
-        <CONTAINER_CONTEXT.Provider value={currentContainer}>
+        <CONTAINER_CONTEXT.Provider value={currentContainer.current}>
           <WrappedComponent {...props} />
         </CONTAINER_CONTEXT.Provider>
       );

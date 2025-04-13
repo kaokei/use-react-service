@@ -4,7 +4,7 @@
 
 本库是基于`@kaokei/di`开发的，默认导出了`@kaokei/di`中的所有 API。
 
-主要是业务开发中也是经常需要使用到`@kaokei/di`中的 API，本库默认导出了`@kaokei/di`是为了方便用户导入 API，也就是只需要从`@kaokei/use-vue-service`中可以导入所有 API。不需要从两个不同的库中分别导入 API，从而避免一定的记忆成本。
+主要是业务开发中也是经常需要使用到`@kaokei/di`中的 API，本库默认导出了`@kaokei/di`是为了方便用户导入 API，也就是只需要从`@kaokei/use-react-service`中可以导入所有 API。不需要从两个不同的库中分别导入 API，从而避免一定的记忆成本。
 
 ## declareProviders
 
@@ -49,7 +49,7 @@ function declareRootProviders(providers: FunctionProvider): void;
 function declareRootProviders(providers: NewableProvider): void;
 ```
 
-基本逻辑和`declareProviders`方法一致，但是需要注意这里的 container 是全局唯一的，是`@kaokei/use-vue-service`提前创建好的，不需要和任何 vue 组件进行关联。
+基本逻辑和`declareProviders`方法一致，但是需要注意这里的 container 是全局唯一的，是`@kaokei/use-react-service`提前创建好的，不需要和任何 vue 组件进行关联。
 
 `declareRootProviders`的伪代码如下：
 
