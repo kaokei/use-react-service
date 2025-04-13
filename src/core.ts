@@ -40,43 +40,25 @@ function createProxyHandler<T extends object>(instance: T) {
   };
 }
 
-let useServiceCount = 0;
-
 export function useService<T extends object, S extends object>(
   token: CommonToken<T>,
   selector: (service: T) => S
 ): ServiceType<T, S> {
-  console.log('inside useService => ', useServiceCount++);
-
+  const scope = useRef<EffectScope>(null);
   const instance = useRef<T>(null);
   const selected = useRef<ComputedRef<S>>(null);
   const subscribeCallback = useRef<SubscribeCallback>(null);
   const container = useContext(CONTAINER_CONTEXT);
 
-  console.log('inside useService CONTAINER_CONTEXT => ', container);
-
-  if (!instance.current) {
-    const service = container.get(token);
-    instance.current = service;
-    selected.current = { value: selector(service) } as ComputedRef<S>;
-  }
-
-  useEffect(() => {
-    const scope = effectScope();
-    scope.run(() => {
-      instance.current = container.get(token);
-      selected.current = computed(() => selector(instance.current as T));
-      watch(selected.current, (newVal, oldVal) => {
-        console.log('watch selected.current => ', newVal, oldVal);
-        subscribeCallback.current?.();
-      });
+  if (!scope.current) {
+    scope.current = effectScope();
+    scope.current.run(() => {
+      const service = container.get(token);
+      instance.current = service;
+      selected.current = computed(() => selector(service));
+      watch(selected.current, () => subscribeCallback.current?.());
     });
-    return () => {
-      scope.stop();
-      instance.current = null;
-      selected.current = null;
-    };
-  }, []);
+  }
 
   const subscribe = useCallback((callback: SubscribeCallback) => {
     subscribeCallback.current = callback;
@@ -94,6 +76,15 @@ export function useService<T extends object, S extends object>(
   const handler = useMemo(() => createProxyHandler(instance.current as T), []);
 
   const proxy = useMemo(() => new Proxy(selectedData, handler), [selectedData]);
+
+  useEffect(() => {
+    return () => {
+      scope.current?.stop();
+      scope.current = null;
+      instance.current = null;
+      selected.current = null;
+    };
+  }, []);
 
   return proxy as unknown as ServiceType<T, S>;
 }

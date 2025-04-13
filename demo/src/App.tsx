@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Count from './count';
-import CountTest from './count/CountTest';
+import TestSyncStore2 from './test/TestSyncStore2';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,7 +29,7 @@ function App() {
       </div>
       <div className="card">
         <Count></Count>
-        <CountTest></CountTest>
+        <TestSyncStore2></TestSyncStore2>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more

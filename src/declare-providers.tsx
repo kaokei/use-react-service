@@ -16,7 +16,13 @@ export function declareProviders(providers: Provider) {
         bindProviders(currentContainer.current, providers);
       }
 
-      useEffect(() => () => currentContainer.current?.destroy(), []);
+      useEffect(
+        () => () => {
+          currentContainer.current?.destroy();
+          currentContainer.current = null;
+        },
+        []
+      );
 
       return (
         <CONTAINER_CONTEXT.Provider value={currentContainer.current}>
