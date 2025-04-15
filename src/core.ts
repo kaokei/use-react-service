@@ -14,7 +14,7 @@ import {
   ComputedRef,
   EffectScope,
 } from '@vue/reactivity';
-import { hasOwn, bindProviders } from './utils.ts';
+import { bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants.ts';
 import type { ServiceType, Provider, SubscribeCallback } from './interface.ts';
 
@@ -22,7 +22,7 @@ function createProxyHandler<T extends object>(instance: T) {
   return {
     get(target: any, prop: string | symbol) {
       let value;
-      if (hasOwn(target, prop)) {
+      if (Object.prototype.hasOwnProperty.call(target, prop)) {
         value = target[prop];
       } else {
         value = Reflect.get(instance, prop);
@@ -40,15 +40,27 @@ function createProxyHandler<T extends object>(instance: T) {
   };
 }
 
+export function useService<T>(token: CommonToken<T>): T;
 export function useService<T extends object, S extends object>(
   token: CommonToken<T>,
   selector: (service: T) => S
-): ServiceType<T, S> {
+): ServiceType<T, S>;
+export function useService<T, S extends object>(
+  token: CommonToken<T>,
+  selector?: (service: T) => S
+): ServiceType<T, S> | T {
+  const container = useContext(CONTAINER_CONTEXT);
+
+  if (!selector) {
+    // 如果服务实例不是对象，比如是一个函数或者是一个基本类型变量
+    // 请不要使用selector
+    return container.get(token);
+  }
+
   const scope = useRef<EffectScope>(null);
   const instance = useRef<T>(null);
   const selected = useRef<ComputedRef<S>>(null);
   const subscribeCallback = useRef<SubscribeCallback>(null);
-  const container = useContext(CONTAINER_CONTEXT);
 
   if (!scope.current) {
     scope.current = effectScope();
@@ -73,7 +85,10 @@ export function useService<T extends object, S extends object>(
     getSnapshot
   );
 
-  const handler = useMemo(() => createProxyHandler(instance.current as T), []);
+  const handler = useMemo(
+    () => createProxyHandler(instance.current as T as object),
+    []
+  );
 
   const proxy = useMemo(() => new Proxy(selectedData, handler), [selectedData]);
 

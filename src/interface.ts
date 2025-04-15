@@ -1,4 +1,4 @@
-import type { Container, Newable } from '@kaokei/di';
+import type { Container, Newable, CommonToken } from '@kaokei/di';
 
 export type NewableProvider = Newable[];
 export type FunctionProvider = (container: Container) => void;
@@ -17,3 +17,7 @@ export type Methods<T> = {
 export type ServiceType<T, S> = DeepReadonly<Methods<T> & S>;
 
 export type SubscribeCallback = () => void;
+
+export type FindService = <T>(token: CommonToken<T>) => T | undefined;
+
+export type FindAllServices = <T>(token: CommonToken<T>) => T[];
