@@ -1,14 +1,14 @@
 import { createContext } from 'react';
 import { Token } from '@kaokei/di';
 import { createContainer } from './utils.ts';
-import { FindChildService, FindChildrenServices } from './interface.ts';
+import { FindService, FindAllServices } from './interface.ts';
 
 // 给依赖注入库使用的token
-export const FIND_CHILD_SERVICE = new Token<FindChildService>(
+export const FIND_CHILD_SERVICE = new Token<FindService>(
   'USE_REACT_SERVICE_FIND_CHILD_SERVICE'
 );
 // 给依赖注入库使用的token
-export const FIND_CHILDREN_SERVICES = new Token<FindChildrenServices>(
+export const FIND_CHILDREN_SERVICES = new Token<FindAllServices>(
   'USE_REACT_SERVICE_FIND_CHILDREN_SERVICES'
 );
 

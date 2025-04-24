@@ -1,8 +1,8 @@
 import { reactive } from '@vue/reactivity';
 import { Container, Context } from '@kaokei/di';
-import { removeScope } from './scope.ts';
-import { findChildService, findChildrenServices } from './find-service.ts';
 import { FIND_CHILD_SERVICE, FIND_CHILDREN_SERVICES } from './constants.ts';
+import { findChildService, findChildrenServices } from './find-service.ts';
+import { removeScope } from './scope.ts';
 import type {
   Provider,
   FindChildService,

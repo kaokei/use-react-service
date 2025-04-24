@@ -1,8 +1,11 @@
-export * from '@vue/reactivity';
-
 export * from '@kaokei/di';
 
-export { FIND_CHILD_SERVICE, FIND_CHILDREN_SERVICES } from './constants.ts';
+export * from '@vue/reactivity';
+
+export {
+  FIND_CHILD_SERVICE,
+  FIND_CHILDREN_SERVICES,
+} from './constants.ts';
 
 export { declareProviders } from './declare-providers.tsx';
 

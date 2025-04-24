@@ -3,105 +3,61 @@ import {
   useSyncExternalStore,
   useRef,
   useEffect,
-  useMemo,
   useCallback,
 } from 'react';
+import { watch, effectScope, type WatchSource } from '@vue/reactivity';
 import { CommonToken } from '@kaokei/di';
-import {
-  computed,
-  watch,
-  effectScope,
-  ComputedRef,
-  EffectScope,
-} from '@vue/reactivity';
 import { bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants.ts';
-import type { ServiceType, Provider, SubscribeCallback } from './interface.ts';
+import type { SubscribeCallback, Provider } from './interface.ts';
 
-function createProxyHandler<T extends object>(instance: T) {
-  return {
-    get(target: any, prop: string | symbol) {
-      let value;
-      if (Object.prototype.hasOwnProperty.call(target, prop)) {
-        value = target[prop];
-      } else {
-        value = Reflect.get(instance, prop);
-      }
-      if (typeof value === 'function') {
-        return (...args: any[]) => value.apply(instance, args);
-      }
-      return value;
-    },
-
-    set() {
-      // 完全禁止写操作
-      return false;
-    },
-  };
-}
-
-export function useService<T>(token: CommonToken<T>): T;
-export function useService<T extends object, S extends object>(
+export function useService<T>(
   token: CommonToken<T>,
-  selector: (service: T) => S
-): ServiceType<T, S>;
-export function useService<T, S extends object>(
-  token: CommonToken<T>,
-  selector?: (service: T) => S
-): ServiceType<T, S> | T {
+  selector?: (service: T) => WatchSource | WatchSource[],
+  deepSelector?: (service: T) => WatchSource | WatchSource[]
+): T {
   const container = useContext(CONTAINER_CONTEXT);
+  const instance = useRef<T>(null);
 
-  if (!selector) {
+  if (!instance.current) {
+    instance.current = container.get(token);
+  }
+
+  if (!selector && !deepSelector) {
     // 如果服务实例不是对象，比如是一个函数或者是一个基本类型变量
     // 请不要使用selector
-    return container.get(token);
+    return instance.current;
   }
 
-  const scope = useRef<EffectScope>(null);
-  const instance = useRef<T>(null);
-  const selected = useRef<ComputedRef<S>>(null);
   const subscribeCallback = useRef<SubscribeCallback>(null);
-
-  if (!scope.current) {
-    scope.current = effectScope();
-    scope.current.run(() => {
-      const service = container.get(token);
-      instance.current = service;
-      selected.current = computed(() => selector(service));
-      watch(selected.current, () => subscribeCallback.current?.());
-    });
-  }
-
   const subscribe = useCallback((callback: SubscribeCallback) => {
     subscribeCallback.current = callback;
     return () => (subscribeCallback.current = null);
   }, []);
-
-  const getSnapshot = useCallback(() => selected.current?.value, []);
-
-  const selectedData = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getSnapshot
-  );
-
-  const handler = useMemo(
-    () => createProxyHandler(instance.current as T as object),
-    []
-  );
-
-  const proxy = useMemo(() => new Proxy(selectedData, handler), [selectedData]);
+  const getSnapshot = useCallback(() => instance.current as T, []);
+  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
   useEffect(() => {
+    const scope = effectScope(true);
+    scope.run(() => {
+      if (selector) {
+        const watchSource = selector(instance.current as T);
+        watch(watchSource, () => subscribeCallback.current?.());
+      }
+      if (deepSelector) {
+        const watchSourceDeep = deepSelector(instance.current as T);
+        watch(watchSourceDeep, () => subscribeCallback.current?.(), {
+          deep: true,
+        });
+      }
+    });
     return () => {
-      scope.current?.stop();
-      scope.current = null;
+      scope.stop();
       instance.current = null;
-      selected.current = null;
     };
   }, []);
 
-  return proxy as unknown as ServiceType<T, S>;
+  return instance.current;
 }
 
 export function useRootService<T>(token: CommonToken<T>) {
