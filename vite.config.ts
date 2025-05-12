@@ -7,7 +7,7 @@
 // 注意inversify，reflect-metadata，vue等库都是peerDependencies，不应该打包到当前库中
 import { resolve } from 'path';
 import { writeFileSync } from 'fs';
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
@@ -53,6 +53,8 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          '@kaokei/di': 'DI',
+          '@vue/reactivity': 'VueReactivity',
         },
       },
     },
@@ -60,9 +62,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    setupFiles: './tests/setup.ts',
     coverage: {
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      reporter: ['text', 'lcov'],
+      exclude: ['src/generated/**/*.ts'],
+      reporter: ['default', 'text', 'html', 'lcov'],
     },
   },
   resolve: {
