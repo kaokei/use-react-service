@@ -7,7 +7,7 @@
 // 注意inversify，reflect-metadata，vue等库都是peerDependencies，不应该打包到当前库中
 import { resolve } from 'path';
 import { writeFileSync } from 'fs';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
@@ -38,7 +38,14 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['react', 'react/jsx-runtime', 'react-dom', '@vue/reactivity', '@kaokei/di'],
+      external: [
+        'react',
+        'react/jsx-runtime',
+        'react-dom',
+        'react-dom/client',
+        '@kaokei/di',
+        '@vue/reactivity',
+      ],
       output: {
         compact: true,
         // Provide global variables to use in the UMD build
@@ -62,6 +69,7 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src'),
       '@tests': resolve(__dirname, './tests'),
+      '@demo': resolve(__dirname, './demo'),
     },
   },
 });
