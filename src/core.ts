@@ -17,7 +17,7 @@ export function useService<T>(
   deepSelector?: (service: T) => WatchSource | WatchSource[]
 ): T {
   const container = useContext(CONTAINER_CONTEXT);
-  const instance = useRef<T>(null);
+  const instance = useRef<T | null>(null);
 
   if (!instance.current) {
     instance.current = container.get(token);
@@ -29,7 +29,7 @@ export function useService<T>(
     return instance.current;
   }
 
-  const subscribeCallback = useRef<SubscribeCallback>(null);
+  const subscribeCallback = useRef<SubscribeCallback | null>(null);
   const subscribe = useCallback((callback: SubscribeCallback) => {
     subscribeCallback.current = callback;
     return () => (subscribeCallback.current = null);

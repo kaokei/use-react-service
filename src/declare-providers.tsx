@@ -1,15 +1,17 @@
 import { Container } from '@kaokei/di';
 import { useContext, useEffect, useRef } from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer, bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT } from './constants.ts';
 import type { Provider } from './interface.ts';
 
-export function declareProviders(providers: Provider) {
+export function declareProviders(
+  providers: Provider,
+  decorate: any = (a: any) => a
+) {
   return (WrappedComponent: any) => {
     const ConnectedComponent = (props: any) => {
       const parentContainer = useContext(CONTAINER_CONTEXT);
-      const currentContainer = useRef<Container>(null);
+      const currentContainer = useRef<Container | null>(null);
 
       if (!currentContainer.current) {
         currentContainer.current = createContainer(parentContainer);
@@ -36,6 +38,6 @@ export function declareProviders(providers: Provider) {
     ConnectedComponent.displayName = `Connect(${name})`;
     ConnectedComponent.WrappedComponent = WrappedComponent;
 
-    return hoistNonReactStatics(ConnectedComponent, WrappedComponent);
+    return decorate(ConnectedComponent, WrappedComponent);
   };
 }

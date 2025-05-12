@@ -38,13 +38,14 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['react', '@vue/reactivity', '@kaokei/di'],
+      external: ['react', 'react/jsx-runtime', 'react-dom', '@vue/reactivity', '@kaokei/di'],
       output: {
         compact: true,
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          vue: 'Vue',
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },
