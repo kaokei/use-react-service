@@ -7,7 +7,12 @@ export interface DemoCompProps {
 }
 
 const DemoComp: React.FC<DemoCompProps> = ({ msg }) => {
-  const service = useService(DemoService);
+  const service = useService(DemoService, s => [
+    () => s.age,
+    () => s.count,
+    () => s.name,
+    () => s.computedName,
+  ]);
 
   return (
     <div>

@@ -1,19 +1,13 @@
-import {
-  useContext,
-  useSyncExternalStore,
-  useRef,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useContext, useRef, useEffect, useReducer } from 'react';
 import { watch, effectScope, type WatchSource } from '@vue/reactivity';
 import { CommonToken } from '@kaokei/di';
 import { bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants.ts';
-import type { SubscribeCallback, Provider } from './interface.ts';
+import type { Provider } from './interface.ts';
 
 export function useService<T>(
   token: CommonToken<T>,
-  selector?: (service: T) => WatchSource | WatchSource[],
+  selector?: true | ((service: T) => WatchSource | WatchSource[]),
   deepSelector?: (service: T) => WatchSource | WatchSource[]
 ): T {
   const container = useContext(CONTAINER_CONTEXT);
@@ -29,26 +23,24 @@ export function useService<T>(
     return instance.current;
   }
 
-  const subscribeCallback = useRef<SubscribeCallback | null>(null);
-  const subscribe = useCallback((callback: SubscribeCallback) => {
-    subscribeCallback.current = callback;
-    return () => (subscribeCallback.current = null);
-  }, []);
-  const getSnapshot = useCallback(() => instance.current as T, []);
-  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
     const scope = effectScope(true);
     scope.run(() => {
-      if (selector) {
-        const watchSource = selector(instance.current as T);
-        watch(watchSource, () => subscribeCallback.current?.());
-      }
-      if (deepSelector) {
-        const watchSourceDeep = deepSelector(instance.current as T);
-        watch(watchSourceDeep, () => subscribeCallback.current?.(), {
-          deep: true,
-        });
+      if (selector === true) {
+        watch(instance.current as T as object, forceUpdate);
+      } else {
+        if (selector) {
+          const watchSource = selector(instance.current as T);
+          watch(watchSource, forceUpdate);
+        }
+        if (deepSelector) {
+          const watchSourceDeep = deepSelector(instance.current as T);
+          watch(watchSourceDeep, forceUpdate, {
+            deep: true,
+          });
+        }
       }
     });
     return () => {
