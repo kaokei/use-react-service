@@ -66,7 +66,7 @@ export default defineConfig({
     coverage: {
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: ['src/generated/**/*.ts'],
-      reporter: ['default', 'text', 'html', 'lcov'],
+      reporter: ['text', 'html', 'lcov'],
     },
   },
   resolve: {
