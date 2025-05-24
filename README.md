@@ -67,3 +67,9 @@ npm run release:first 第一次发布，会自动创建 CHANGELOG.md 文件
 npm run release patch 发布新版本
 
 使用 MIT 作为开源协议
+
+## todos
+
+1. 不想写那么复杂的watchsource，实际上就是mapstatetoprops，还有就是分成多个useSelector
+2. 复杂对象的深层引用，比如业务实际使用的是a.b.c，watchsource是否可以写a.b，还是必须a.b.c
+3. 对比daishi的3个状态库，分析它们的forceupdate是怎么实现的？是否依赖于usesyncexternalstore

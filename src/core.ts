@@ -7,8 +7,7 @@ import type { Provider } from './interface.ts';
 
 export function useService<T>(
   token: CommonToken<T>,
-  selector?: true | ((service: T) => WatchSource | WatchSource[]),
-  deepSelector?: (service: T) => WatchSource | WatchSource[]
+  selector?: (service: T) => WatchSource | WatchSource[]
 ): T {
   const container = useContext(CONTAINER_CONTEXT);
   const instance = useRef<T | null>(null);
@@ -17,7 +16,7 @@ export function useService<T>(
     instance.current = container.get(token);
   }
 
-  if (!selector && !deepSelector) {
+  if (!selector) {
     // 如果服务实例不是对象，比如是一个函数或者是一个基本类型变量
     // 请不要使用selector
     return instance.current;
@@ -28,19 +27,9 @@ export function useService<T>(
   useEffect(() => {
     const scope = effectScope(true);
     scope.run(() => {
-      if (selector === true) {
-        watch(instance.current as T as object, forceUpdate);
-      } else {
-        if (selector) {
-          const watchSource = selector(instance.current as T);
-          watch(watchSource, forceUpdate);
-        }
-        if (deepSelector) {
-          const watchSourceDeep = deepSelector(instance.current as T);
-          watch(watchSourceDeep, forceUpdate, {
-            deep: true,
-          });
-        }
+      if (selector) {
+        const watchSource = selector(instance.current as T);
+        watch(watchSource, forceUpdate);
       }
     });
     return () => {
