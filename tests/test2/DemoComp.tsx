@@ -15,21 +15,21 @@ const DemoComp: React.FC<DemoCompProps> = ({ msg }) => {
 
   return (
     <div>
-      <div data-testid="msg">{msg}</div>
-      <div data-testid="count">{service.count}</div>
-      <div data-testid="age">{service.age}</div>
-      <div data-testid="name">{service.name}</div>
-      <div data-testid="computedName">{service.computedName}</div>
+      <div className="msg">{msg}</div>
+      <div className="count">{service.count}</div>
+      <div className="age">{service.age}</div>
+      <div className="name">{service.name}</div>
+      <div className="computedName">{service.computedName}</div>
       <button
         type="button"
-        data-testid="btn-age"
+        className="btn-age"
         onClick={() => service.increaseAge()}
       >
         Add age
       </button>
       <button
         type="button"
-        data-testid="btn-count"
+        className="btn-count"
         onClick={() => service.increaseCount()}
       >
         Add count

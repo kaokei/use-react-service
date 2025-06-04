@@ -23,7 +23,6 @@
 - [codesandbox example](https://codesandbox.io/s/di-playground-zjnyv)
 - [online demo](https://use-react-service.vercel.app/)
 
-
 ## 待修改的 5 个名字
 
 - 项目名，也就是项目文件夹的名称，这个在我们创建项目时就已经指定了。
@@ -73,3 +72,17 @@ npm run release patch 发布新版本
 1. 不想写那么复杂的watchsource，实际上就是mapstatetoprops，还有就是分成多个useSelector
 2. 复杂对象的深层引用，比如业务实际使用的是a.b.c，watchsource是否可以写a.b，还是必须a.b.c
 3. 对比daishi的3个状态库，分析它们的forceupdate是怎么实现的？是否依赖于usesyncexternalstore
+
+## 为什么不使用 @testing-library 测试框架
+
+[参考这个文档](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change)
+
+我理解有很多软件库都是opinionated。但是这个库是我第一次完全不能接受的。
+
+完全是在教我怎么写代码。而且我并不认同不提供getById和getByClassName这两个API就能提升单元测试的质量。
+
+更不用说需要在项目代码中增加很多role, label, data-testid这些为了测试才增加的属性。
+
+实际上在开发代码时我并不会去增加这些属性，更不想单独为了测试去增加这些属性。
+
+相反通过id/class来获取dom是很正常的需求。所以还是更换一个合适的测试框架吧。
