@@ -14,38 +14,38 @@ describe('test1', () => {
     const btnAgeNode = screen.getByTestId('btn-age');
     const btnCountNode = screen.getByTestId('btn-count');
 
-    expect(msgNode).toHaveTextContent(msg);
-    expect(countNode).toHaveTextContent(/^1$/);
-    expect(ageNode).toHaveTextContent(/^100$/);
-    expect(nameNode).toHaveTextContent(/^DemoService-100$/);
-    expect(computedNameNode).toHaveTextContent(/^DemoService-100$/);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText(1);
+    expect(ageNode).toHaveExactText(100);
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
     fireEvent.click(btnCountNode);
-    expect(msgNode).toHaveTextContent(msg);
-    expect(countNode).toHaveTextContent(/^2$/);
-    expect(ageNode).toHaveTextContent(/^100$/);
-    expect(nameNode).toHaveTextContent(/^DemoService-100$/);
-    expect(computedNameNode).toHaveTextContent(/^DemoService-100$/);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText(2);
+    expect(ageNode).toHaveExactText(100);
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
     fireEvent.click(btnCountNode);
-    expect(msgNode).toHaveTextContent(msg);
-    expect(countNode).toHaveTextContent(/^3$/);
-    expect(ageNode).toHaveTextContent(/^100$/);
-    expect(nameNode).toHaveTextContent(/^DemoService-100$/);
-    expect(computedNameNode).toHaveTextContent(/^DemoService-100$/);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText(3);
+    expect(ageNode).toHaveExactText(100);
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
     fireEvent.click(btnAgeNode);
-    expect(msgNode).toHaveTextContent(msg);
-    expect(countNode).toHaveTextContent(/^3$/);
-    expect(ageNode).toHaveTextContent(/^101$/);
-    expect(nameNode).toHaveTextContent(/^DemoService-101$/);
-    expect(computedNameNode).toHaveTextContent(/^DemoService-101$/);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText(3);
+    expect(ageNode).toHaveExactText(101);
+    expect(nameNode).toHaveExactText('DemoService-101');
+    expect(computedNameNode).toHaveExactText('DemoService-101');
 
     fireEvent.click(btnAgeNode);
-    expect(msgNode).toHaveTextContent(msg);
-    expect(countNode).toHaveTextContent(/^3$/);
-    expect(ageNode).toHaveTextContent(/^102$/);
-    expect(nameNode).toHaveTextContent(/^DemoService-102$/);
-    expect(computedNameNode).toHaveTextContent(/^DemoService-102$/);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText(3);
+    expect(ageNode).toHaveExactText(102);
+    expect(nameNode).toHaveExactText('DemoService-102');
+    expect(computedNameNode).toHaveExactText('DemoService-102');
   });
 });
