@@ -4,8 +4,8 @@ import DemoComp from './DemoComp.tsx';
 describe('test1', () => {
   it('get DemoService instance', async () => {
     const msg = 'Hello world';
-
     render(<DemoComp msg={msg} />);
+
     const msgNode = screen.getByTestId('msg');
     const countNode = screen.getByTestId('count');
     const ageNode = screen.getByTestId('age');

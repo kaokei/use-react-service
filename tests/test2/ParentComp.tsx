@@ -20,12 +20,12 @@ const ParentComp: React.FC = () => {
     <div>
       <DemoComp msg="nihao"></DemoComp>
 
-      <button className="btn-parent-age" type="button" onClick={handleAddAge}>
+      <button data-testid="btn-parent-age" type="button" onClick={handleAddAge}>
         Add age
       </button>
 
       <button
-        className="btn-parent-count"
+        data-testid="btn-parent-count"
         type="button"
         onClick={handleAddCount}
       >
