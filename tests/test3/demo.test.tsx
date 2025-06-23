@@ -1,38 +1,46 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { DemoService } from './DemoService';
-import { OtherService } from './OtherService';
+import { screen, render, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp.tsx';
 
 describe('test3', () => {
   it('get DemoService instance', async () => {
-    const wrapper = mount(DemoComp);
+    const msg = 'nihao';
+    render(<DemoComp msg={msg} />);
 
-    expect(wrapper.vm.demoService).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.otherService).toBeInstanceOf(OtherService);
-    expect(wrapper.vm.demoService.otherService).toBe(wrapper.vm.otherService);
+    const btnDemoNode = screen.getByTestId('btn-demo');
+    const btnOtherNode = screen.getByTestId('btn-other');
 
-    expect(wrapper.get('.demo-count').text()).toBe('100');
-    expect(wrapper.get('.demo-sum').text()).toBe('300');
-    expect(wrapper.get('.other-count').text()).toBe('200');
+    const msgNode = screen.getByTestId('msg');
+    const demoCountNode = screen.getByTestId('demo-count');
+    const demoSumNode = screen.getByTestId('demo-sum');
+    const otherCountNode = screen.getByTestId('other-count');
 
-    await wrapper.get('.btn-demo').trigger('click');
-    expect(wrapper.get('.demo-count').text()).toBe('101');
-    expect(wrapper.get('.demo-sum').text()).toBe('301');
-    expect(wrapper.get('.other-count').text()).toBe('200');
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText(100);
+    expect(demoSumNode).toHaveExactText(300);
+    expect(otherCountNode).toHaveExactText(200);
 
-    await wrapper.get('.btn-demo').trigger('click');
-    expect(wrapper.get('.demo-count').text()).toBe('102');
-    expect(wrapper.get('.demo-sum').text()).toBe('302');
-    expect(wrapper.get('.other-count').text()).toBe('200');
+    fireEvent.click(btnDemoNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText(101);
+    expect(demoSumNode).toHaveExactText(301);
+    expect(otherCountNode).toHaveExactText(200);
 
-    await wrapper.get('.btn-other').trigger('click');
-    expect(wrapper.get('.demo-count').text()).toBe('102');
-    expect(wrapper.get('.demo-sum').text()).toBe('303');
-    expect(wrapper.get('.other-count').text()).toBe('201');
+    fireEvent.click(btnDemoNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText(102);
+    expect(demoSumNode).toHaveExactText(302);
+    expect(otherCountNode).toHaveExactText(200);
 
-    await wrapper.get('.btn-other').trigger('click');
-    expect(wrapper.get('.demo-count').text()).toBe('102');
-    expect(wrapper.get('.demo-sum').text()).toBe('304');
-    expect(wrapper.get('.other-count').text()).toBe('202');
+    fireEvent.click(btnOtherNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText(102);
+    expect(demoSumNode).toHaveExactText(303);
+    expect(otherCountNode).toHaveExactText(201);
+
+    fireEvent.click(btnOtherNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText(102);
+    expect(demoSumNode).toHaveExactText(304);
+    expect(otherCountNode).toHaveExactText(202);
   });
 });

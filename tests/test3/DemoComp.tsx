@@ -1,35 +1,49 @@
-<script setup lang="ts">
-import { declareProviders, useService } from '@/index';
+import React from 'react';
 import { DemoService } from './DemoService';
 import { OtherService } from './OtherService';
+import { useService, declareProviders } from '@/index';
 
-declareProviders([DemoService, OtherService]);
-const demoService = useService(DemoService);
-const otherService = useService(OtherService);
+export interface DemoCompProps {
+  msg?: string;
+}
 
-defineExpose({
-  demoService,
-  otherService,
-});
-</script>
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
 
-<template>
-  <div>
-    <div class="demo-count">{{ demoService.count }}</div>
-    <div class="demo-sum">{{ demoService.sum }}</div>
+function selectorOtherService(s: OtherService) {
+  return [() => s.count];
+}
 
-    <div class="other-count">{{ otherService.count }}</div>
+const DemoComp: React.FC<DemoCompProps> = ({ msg }) => {
+  const demoService = useService(DemoService, selectorDemoService);
+  const otherService = useService(OtherService, selectorOtherService);
 
-    <button type="button" class="btn-demo" @click="demoService.increaseCount()">
-      Demo add count
-    </button>
+  return (
+    <div>
+      <div data-testid="msg">{msg}</div>
+      <div data-testid="demo-count">{demoService.count}</div>
+      <div data-testid="demo-sum">{demoService.sum}</div>
 
-    <button
-      type="button"
-      class="btn-other"
-      @click="otherService.increaseCount()"
-    >
-      Other add count
-    </button>
-  </div>
-</template>
+      <div data-testid="other-count">{otherService.count}</div>
+
+      <button
+        type="button"
+        data-testid="btn-demo"
+        onClick={() => demoService.increaseCount()}
+      >
+        Demo add count
+      </button>
+
+      <button
+        type="button"
+        data-testid="btn-other"
+        onClick={() => otherService.increaseCount()}
+      >
+        Other add count
+      </button>
+    </div>
+  );
+};
+
+export default declareProviders([DemoService, OtherService])(DemoComp);
