@@ -1,46 +1,46 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { DemoService } from './DemoService';
-import { OtherService } from './OtherService';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp';
 
 describe('test8', () => {
-  it('get DemoService instance', async () => {
-    const wrapper = mount(DemoComp);
+  it('count and click', () => {
+    render(<DemoComp />);
 
-    expect(wrapper.vm.demoService1).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.demoService2).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.otherService1).toBeInstanceOf(OtherService);
-    expect(wrapper.vm.otherService2).toBeInstanceOf(OtherService);
-    expect(wrapper.vm.demoService1).toBe(wrapper.vm.demoService2);
-    expect(wrapper.vm.otherService1).toBe(wrapper.vm.otherService2);
+    const demo1Count = screen.getByTestId('demo1-count');
+    const demo2Count = screen.getByTestId('demo2-count');
+    const other1Count = screen.getByTestId('other1-count');
+    const other2Count = screen.getByTestId('other2-count');
+    const btnDemo1 = screen.getByTestId('btn-demo1');
+    const btnDemo2 = screen.getByTestId('btn-demo2');
+    const btnOther1 = screen.getByTestId('btn-other1');
+    const btnOther2 = screen.getByTestId('btn-other2');
 
-    expect(wrapper.get('.demo1-count').text()).toBe('100');
-    expect(wrapper.get('.demo2-count').text()).toBe('100');
-    expect(wrapper.get('.other1-count').text()).toBe('200');
-    expect(wrapper.get('.other2-count').text()).toBe('200');
+    expect(demo1Count).toHaveExactText('100');
+    expect(demo2Count).toHaveExactText('100');
+    expect(other1Count).toHaveExactText('200');
+    expect(other2Count).toHaveExactText('200');
 
-    await wrapper.get('.btn-demo1').trigger('click');
-    expect(wrapper.get('.demo1-count').text()).toBe('101');
-    expect(wrapper.get('.demo2-count').text()).toBe('101');
-    expect(wrapper.get('.other1-count').text()).toBe('200');
-    expect(wrapper.get('.other2-count').text()).toBe('200');
+    fireEvent.click(btnDemo1);
+    expect(demo1Count).toHaveExactText('101');
+    expect(demo2Count).toHaveExactText('101');
+    expect(other1Count).toHaveExactText('200');
+    expect(other2Count).toHaveExactText('200');
 
-    await wrapper.get('.btn-demo2').trigger('click');
-    expect(wrapper.get('.demo1-count').text()).toBe('102');
-    expect(wrapper.get('.demo2-count').text()).toBe('102');
-    expect(wrapper.get('.other1-count').text()).toBe('200');
-    expect(wrapper.get('.other2-count').text()).toBe('200');
+    fireEvent.click(btnDemo2);
+    expect(demo1Count).toHaveExactText('102');
+    expect(demo2Count).toHaveExactText('102');
+    expect(other1Count).toHaveExactText('200');
+    expect(other2Count).toHaveExactText('200');
 
-    await wrapper.get('.btn-other1').trigger('click');
-    expect(wrapper.get('.demo1-count').text()).toBe('102');
-    expect(wrapper.get('.demo2-count').text()).toBe('102');
-    expect(wrapper.get('.other1-count').text()).toBe('201');
-    expect(wrapper.get('.other2-count').text()).toBe('201');
+    fireEvent.click(btnOther1);
+    expect(demo1Count).toHaveExactText('102');
+    expect(demo2Count).toHaveExactText('102');
+    expect(other1Count).toHaveExactText('201');
+    expect(other2Count).toHaveExactText('201');
 
-    await wrapper.get('.btn-other2').trigger('click');
-    expect(wrapper.get('.demo1-count').text()).toBe('102');
-    expect(wrapper.get('.demo2-count').text()).toBe('102');
-    expect(wrapper.get('.other1-count').text()).toBe('202');
-    expect(wrapper.get('.other2-count').text()).toBe('202');
+    fireEvent.click(btnOther2);
+    expect(demo1Count).toHaveExactText('102');
+    expect(demo2Count).toHaveExactText('102');
+    expect(other1Count).toHaveExactText('202');
+    expect(other2Count).toHaveExactText('202');
   });
 });
