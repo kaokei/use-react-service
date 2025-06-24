@@ -1,21 +1,15 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { DemoService } from './DemoService';
-import { useService } from '@/index';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp';
 
 describe('test12', () => {
-  it('get DemoService instance', async () => {
+  it('count and click', () => {
     const msg = 'Hello world';
-    const wrapper = mount(DemoComp, {
-      props: {
-        msg,
-      },
-    });
+    render(<DemoComp msg={msg} />);
 
-    expect(wrapper.vm.service).toBeInstanceOf(DemoService);
+    expect(screen.getByTestId('msg')).toHaveExactText(msg);
+    expect(screen.getByTestId('count')).toHaveExactText('1');
 
-    expect(() => {
-      useService(DemoService);
-    }).toThrow("getProvideContainer 只能在 setup 中使用");
+    fireEvent.click(screen.getByTestId('btn-count'));
+    expect(screen.getByTestId('count')).toHaveExactText('2');
   });
 });

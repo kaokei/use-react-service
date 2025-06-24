@@ -72,6 +72,7 @@ npm run release patch 发布新版本
 1. 不想写那么复杂的watchsource，实际上就是mapstatetoprops，还有就是分成多个useSelector
 2. 复杂对象的深层引用，比如业务实际使用的是a.b.c，watchsource是否可以写a.b，还是必须a.b.c
 3. 对比daishi的3个状态库，分析它们的forceupdate是怎么实现的？是否依赖于usesyncexternalstore
+4. useRootService也需要第2个参数来订阅变化的属性
 
 ## 为什么不使用 @testing-library 测试框架
 
