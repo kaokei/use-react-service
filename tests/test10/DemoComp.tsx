@@ -1,67 +1,72 @@
-<script setup lang="ts">
-import { useService, useRootService } from '@/index';
+import React from 'react';
+import { useService } from '@/index';
 import { DemoService } from './DemoService';
 import { OtherService } from './OtherService';
 
-const demoService1 = useService(DemoService);
-const demoService2 = useService(DemoService);
-const demoService3 = useRootService(DemoService);
-const demoService4 = useRootService(DemoService);
+export interface CompProps {}
 
-const otherService1 = useService(OtherService);
-const otherService2 = useService(OtherService);
-const otherService3 = useRootService(OtherService);
-const otherService4 = useRootService(OtherService);
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
+function selectorOtherService(s: OtherService) {
+  return [() => s.count];
+}
 
-defineExpose({
-  demoService1,
-  demoService2,
-  demoService3,
-  demoService4,
-  otherService1,
-  otherService2,
-  otherService3,
-  otherService4,
-});
-</script>
+const Comp: React.FC<CompProps> = () => {
+  const demoService1 = useService(DemoService, selectorDemoService);
+  const demoService2 = useService(DemoService, selectorDemoService);
 
-<template>
-  <div>
-    <div class="demo1-count">{{ demoService1.count }}</div>
-    <div class="demo2-count">{{ demoService2.count }}</div>
-    <div class="other1-count">{{ otherService1.count }}</div>
-    <div class="other2-count">{{ otherService2.count }}</div>
+  const otherService1 = useService(OtherService, selectorOtherService);
+  const otherService2 = useService(OtherService, selectorOtherService);
 
-    <button
-      type="button"
-      class="btn-demo1"
-      @click="demoService1.increaseCount()"
-    >
-      Demo1 add count
-    </button>
+  return (
+    <div>
+      <div data-testid="demo1-count">{demoService1.count}</div>
+      <div data-testid="demo2-count">{demoService2.count}</div>
+      <div data-testid="other1-count">{otherService1.count}</div>
+      <div data-testid="other2-count">{otherService2.count}</div>
 
-    <button
-      type="button"
-      class="btn-demo2"
-      @click="demoService2.increaseCount()"
-    >
-      Demo2 add count
-    </button>
+      <button
+        type="button"
+        data-testid="btn-demo1"
+        onClick={() => {
+          demoService1.increaseCount();
+        }}
+      >
+        Demo1 add count
+      </button>
 
-    <button
-      type="button"
-      class="btn-other1"
-      @click="otherService1.increaseCount()"
-    >
-      Other1 add count
-    </button>
+      <button
+        type="button"
+        data-testid="btn-demo2"
+        onClick={() => {
+          demoService2.increaseCount();
+        }}
+      >
+        Demo2 add count
+      </button>
 
-    <button
-      type="button"
-      class="btn-other2"
-      @click="otherService2.increaseCount()"
-    >
-      Other2 add count
-    </button>
-  </div>
-</template>
+      <button
+        type="button"
+        data-testid="btn-other1"
+        onClick={() => {
+          otherService1.increaseCount();
+        }}
+      >
+        Other1 add count
+      </button>
+
+      <button
+        type="button"
+        data-testid="btn-other2"
+        onClick={() => {
+          otherService2.increaseCount();
+        }}
+      >
+        Other2 add count
+      </button>
+    </div>
+  );
+};
+
+export default Comp;
