@@ -2,7 +2,7 @@ import React from 'react';
 import { DemoService } from './DemoService';
 import { useService, declareProviders } from '@/index';
 
-export interface DemoCompProps {
+export interface CompProps {
   msg?: string;
 }
 
@@ -10,7 +10,7 @@ function selectorDemoService(s: DemoService) {
   return [() => s.age, () => s.count, () => s.name, () => s.computedName];
 }
 
-const DemoComp: React.FC<DemoCompProps> = ({ msg }) => {
+const Comp: React.FC<CompProps> = ({ msg }) => {
   const service = useService(DemoService, selectorDemoService);
 
   return (
@@ -38,4 +38,4 @@ const DemoComp: React.FC<DemoCompProps> = ({ msg }) => {
   );
 };
 
-export default declareProviders([DemoService])(DemoComp);
+export default declareProviders([DemoService])(Comp);

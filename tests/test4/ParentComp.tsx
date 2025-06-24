@@ -1,40 +1,51 @@
-<script setup lang="ts">
-import { declareProviders, useService } from '@/index';
+import React from 'react';
+import { useService, declareProviders } from '@/index';
 import { DemoService } from './DemoService';
 import { ParentService } from './ParentService';
-import ChildComp from './ChildComp.vue';
+import ChildComp from './ChildComp.tsx';
 
-declareProviders([ParentService]);
-const demoService = useService(DemoService);
-const parentService = useService(ParentService);
+export interface CompProps {
+  msg?: string;
+}
 
-defineExpose({
-  demoService,
-  parentService,
-});
-</script>
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
 
-<template>
-  <div>
-    <div class="parent-demo-count">{{ demoService.count }}</div>
-    <div class="parent-demo-count-2">{{ parentService.demoService.count }}</div>
-    <div class="parent-count">{{ parentService.count }}</div>
+function selectorParentService(s: ParentService) {
+  return [() => s.count];
+}
 
-    <button
-      type="button"
-      class="btn-parent-demo"
-      @click="demoService.increaseCount()"
-    >
-      Demo add count
-    </button>
-    <button
-      type="button"
-      class="btn-parent"
-      @click="parentService.increaseCount()"
-    >
-      Parent add count
-    </button>
+const Comp: React.FC<CompProps> = () => {
+  const demoService = useService(DemoService, selectorDemoService);
+  const parentService = useService(ParentService, selectorParentService);
 
-    <ChildComp></ChildComp>
-  </div>
-</template>
+  return (
+    <div>
+      <div data-testid="parent-demo-count">{demoService.count}</div>
+      <div data-testid="parent-demo-count-2">
+        {parentService.demoService.count}
+      </div>
+      <div data-testid="parent-count">{parentService.count}</div>
+
+      <button
+        type="button"
+        data-testid="btn-parent-demo"
+        onClick={() => demoService.increaseCount()}
+      >
+        Demo add count
+      </button>
+      <button
+        type="button"
+        data-testid="btn-parent"
+        onClick={() => parentService.increaseCount()}
+      >
+        Parent add count
+      </button>
+
+      <ChildComp></ChildComp>
+    </div>
+  );
+};
+
+export default declareProviders([ParentService])(Comp);
