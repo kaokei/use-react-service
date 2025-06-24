@@ -1,56 +1,46 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { DemoService } from './DemoService';
-import { AppService } from './AppService';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp';
+import { declareProviders, declareRootProviders } from '@/index';
 import { RootService } from './RootService';
-import {
-  declareAppProvidersPlugin,
-  declareRootProviders,
-  useRootService,
-} from '@/index';
+import { AppService } from './AppService';
 
 describe('test7', () => {
   it('get DemoService instance', async () => {
     declareRootProviders([RootService]);
+
     const msg = 'Hello world';
-    const wrapper = mount(DemoComp, {
-      props: {
-        msg,
-      },
-      global: {
-        plugins: [declareAppProvidersPlugin([AppService])],
-      },
-    });
+    const App = declareProviders([AppService])(DemoComp);
+    render(<App msg={msg} />);
 
-    const rootService = useRootService(RootService);
+    const msgNode = screen.getByTestId('msg');
+    const demoCountNode = screen.getByTestId('demo-count');
+    const appCountNode = screen.getByTestId('app-count');
+    const rootCountNode = screen.getByTestId('root-count');
+    const btnDemoCount = screen.getByTestId('btn-demo-count');
+    const btnAppCount = screen.getByTestId('btn-app-count');
+    const btnRootCount = screen.getByTestId('btn-root-count');
 
-    expect(wrapper.vm.service).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.appService).toBeInstanceOf(AppService);
-    expect(wrapper.vm.rootService).toBeInstanceOf(RootService);
-    expect(rootService).toBeInstanceOf(RootService);
-    expect(wrapper.vm.rootService).toBe(rootService);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText('10');
+    expect(appCountNode).toHaveExactText('100');
+    expect(rootCountNode).toHaveExactText('1000');
 
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.demo-count').text()).toBe('10');
-    expect(wrapper.get('.app-count').text()).toBe('100');
-    expect(wrapper.get('.root-count').text()).toBe('1000');
+    fireEvent.click(btnDemoCount);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText('20');
+    expect(appCountNode).toHaveExactText('100');
+    expect(rootCountNode).toHaveExactText('1000');
 
-    await wrapper.get('.btn-demo-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.demo-count').text()).toBe('20');
-    expect(wrapper.get('.app-count').text()).toBe('100');
-    expect(wrapper.get('.root-count').text()).toBe('1000');
+    fireEvent.click(btnAppCount);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText('20');
+    expect(appCountNode).toHaveExactText('200');
+    expect(rootCountNode).toHaveExactText('1000');
 
-    await wrapper.get('.btn-app-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.demo-count').text()).toBe('20');
-    expect(wrapper.get('.app-count').text()).toBe('200');
-    expect(wrapper.get('.root-count').text()).toBe('1000');
-
-    await wrapper.get('.btn-root-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.demo-count').text()).toBe('20');
-    expect(wrapper.get('.app-count').text()).toBe('200');
-    expect(wrapper.get('.root-count').text()).toBe('2000');
+    fireEvent.click(btnRootCount);
+    expect(msgNode).toHaveExactText(msg);
+    expect(demoCountNode).toHaveExactText('20');
+    expect(appCountNode).toHaveExactText('200');
+    expect(rootCountNode).toHaveExactText('2000');
   });
 });

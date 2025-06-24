@@ -8,7 +8,13 @@ export interface CompProps {
 }
 
 function selectorDemoService(s: DemoService) {
-  return [() => s.count, () => s.otherService.count, () => s.age, () => s.name, () => s.computedName];
+  return [
+    () => s.count,
+    () => s.otherService.count,
+    () => s.age,
+    () => s.name,
+    () => s.computedName,
+  ];
 }
 
 const Comp: React.FC<CompProps> = ({ msg }) => {
@@ -23,13 +29,25 @@ const Comp: React.FC<CompProps> = ({ msg }) => {
       <div data-testid="name">{service.name}</div>
       <div data-testid="computedName">{service.computedName}</div>
 
-      <button type="button" data-testid="btn-age" onClick={() => service.increaseAge()}>
+      <button
+        type="button"
+        data-testid="btn-age"
+        onClick={() => service.increaseAge()}
+      >
         Add age
       </button>
-      <button type="button" data-testid="btn-count" onClick={() => service.increaseCount()}>
+      <button
+        type="button"
+        data-testid="btn-count"
+        onClick={() => service.increaseCount()}
+      >
         Add count
       </button>
-      <button type="button" data-testid="btn-other-count" onClick={() => service.otherService.increaseCount()}>
+      <button
+        type="button"
+        data-testid="btn-other-count"
+        onClick={() => service.otherService.increaseCount()}
+      >
         Add other count
       </button>
     </div>
