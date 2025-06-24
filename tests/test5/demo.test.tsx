@@ -1,65 +1,67 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { DemoService } from './DemoService';
-import { OtherService } from './OtherService';
+import { screen, render, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp.tsx';
 
 describe('test5', () => {
   it('get DemoService instance', async () => {
     const msg = 'Hello world';
-    const wrapper = mount(DemoComp, {
-      props: {
-        msg,
-      },
-    });
+    render(<DemoComp msg={msg} />);
 
-    expect(wrapper.vm.service).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.service.otherService).toBeInstanceOf(OtherService);
+    const btnCountNode = screen.getByTestId('btn-count');
+    const btnOtherCountNode = screen.getByTestId('btn-other-count');
+    const btnAgeNode = screen.getByTestId('btn-age');
 
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('1');
-    expect(wrapper.get('.other-count').text()).toBe('100');
-    expect(wrapper.get('.age').text()).toBe('100');
-    expect(wrapper.get('.name').text()).toBe('DemoService-100');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-100');
+    const msgNode = screen.getByTestId('msg');
+    const countNode = screen.getByTestId('count');
+    const otherCountNode = screen.getByTestId('other-count');
+    const ageNode = screen.getByTestId('age');
+    const nameNode = screen.getByTestId('name');
+    const computedNameNode = screen.getByTestId('computedName');
 
-    await wrapper.get('.btn-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('2');
-    expect(wrapper.get('.other-count').text()).toBe('100');
-    expect(wrapper.get('.age').text()).toBe('100');
-    expect(wrapper.get('.name').text()).toBe('DemoService-100');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-100');
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('1');
+    expect(otherCountNode).toHaveExactText('100');
+    expect(ageNode).toHaveExactText('100');
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
-    await wrapper.get('.btn-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('3');
-    expect(wrapper.get('.other-count').text()).toBe('100');
-    expect(wrapper.get('.age').text()).toBe('100');
-    expect(wrapper.get('.name').text()).toBe('DemoService-100');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-100');
+    fireEvent.click(btnCountNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('2');
+    expect(otherCountNode).toHaveExactText('100');
+    expect(ageNode).toHaveExactText('100');
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
-    await wrapper.get('.btn-other-count').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('3');
-    expect(wrapper.get('.other-count').text()).toBe('110');
-    expect(wrapper.get('.age').text()).toBe('100');
-    expect(wrapper.get('.name').text()).toBe('DemoService-100');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-100');
+    fireEvent.click(btnCountNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('100');
+    expect(ageNode).toHaveExactText('100');
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
-    await wrapper.get('.btn-age').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('3');
-    expect(wrapper.get('.other-count').text()).toBe('110');
-    expect(wrapper.get('.age').text()).toBe('101');
-    expect(wrapper.get('.name').text()).toBe('DemoService-101');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-101');
+    fireEvent.click(btnOtherCountNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('110');
+    expect(ageNode).toHaveExactText('100');
+    expect(nameNode).toHaveExactText('DemoService-100');
+    expect(computedNameNode).toHaveExactText('DemoService-100');
 
-    await wrapper.get('.btn-age').trigger('click');
-    expect(wrapper.get('.msg').text()).toBe(msg);
-    expect(wrapper.get('.count').text()).toBe('3');
-    expect(wrapper.get('.other-count').text()).toBe('110');
-    expect(wrapper.get('.age').text()).toBe('102');
-    expect(wrapper.get('.name').text()).toBe('DemoService-102');
-    expect(wrapper.get('.computedName').text()).toBe('DemoService-102');
+    fireEvent.click(btnAgeNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('110');
+    expect(ageNode).toHaveExactText('101');
+    expect(nameNode).toHaveExactText('DemoService-101');
+    expect(computedNameNode).toHaveExactText('DemoService-101');
+
+    fireEvent.click(btnAgeNode);
+    expect(msgNode).toHaveExactText(msg);
+    expect(countNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('110');
+    expect(ageNode).toHaveExactText('102');
+    expect(nameNode).toHaveExactText('DemoService-102');
+    expect(computedNameNode).toHaveExactText('DemoService-102');
   });
 });

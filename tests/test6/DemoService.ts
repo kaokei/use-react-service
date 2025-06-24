@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed } from '@vue/reactivity';
 import { Inject, PostConstruct } from '@/index';
 import { OtherService } from './OtherService';
 

@@ -1,41 +1,61 @@
-<script setup lang="ts">
+import React from 'react';
+import { declareProviders, useService } from '@/index';
 import { DemoService } from './DemoService';
 import { OtherService } from './OtherService';
-import { declareProviders, useService } from '@/index';
 import { TYPES } from './token';
 
-defineProps({
-  msg: String,
-});
+export interface CompProps {
+  msg?: string;
+}
 
-declareProviders(con => {
+function selectorDemoService(s: DemoService) {
+  return [
+    () => s.count,
+    () => s.otherService.count,
+    () => s.age,
+    () => s.name,
+    () => s.computedName,
+  ];
+}
+
+const Comp: React.FC<CompProps> = ({ msg }) => {
+  const demoService = useService(TYPES.DemoService, selectorDemoService);
+
+  return (
+    <div>
+      <div data-testid="msg">{msg}</div>
+      <div data-testid="count">{demoService.count}</div>
+      <div data-testid="other-count">{demoService.otherService.count}</div>
+      <div data-testid="age">{demoService.age}</div>
+      <div data-testid="name">{demoService.name}</div>
+      <div data-testid="computedName">{demoService.computedName}</div>
+
+      <button
+        type="button"
+        data-testid="btn-age"
+        onClick={() => demoService.increaseAge()}
+      >
+        Add age
+      </button>
+      <button
+        type="button"
+        data-testid="btn-count"
+        onClick={() => demoService.increaseCount()}
+      >
+        Add count
+      </button>
+      <button
+        type="button"
+        data-testid="btn-other-count"
+        onClick={() => demoService.increaseOtherCount()}
+      >
+        Add other count
+      </button>
+    </div>
+  );
+};
+
+export default declareProviders(con => {
   con.bind(TYPES.DemoService).to(DemoService);
   con.bind(TYPES.OtherService).to(OtherService);
-});
-const service = useService(TYPES.DemoService);
-
-defineExpose({
-  service,
-});
-</script>
-
-<template>
-  <div>
-    <div class="msg">{{ msg }}</div>
-    <div class="count">{{ service.count }}</div>
-    <div class="other-count">{{ service.otherService.count }}</div>
-    <div class="age">{{ service.age }}</div>
-    <div class="name">{{ service.name }}</div>
-    <div class="computedName">{{ service.computedName }}</div>
-
-    <button type="button" class="btn-age" @click="service.increaseAge()">
-      Add age
-    </button>
-    <button type="button" class="btn-count" @click="service.increaseCount()">
-      Add count
-    </button>
-    <button type="button" class="btn-other-count" @click="service.increaseOtherCount()">
-      Add other count
-    </button>
-  </div>
-</template>
+})(Comp);

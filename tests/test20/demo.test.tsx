@@ -1,5 +1,5 @@
 import { Computed } from '@/index';
-import { reactive } from 'vue';
+import { reactive } from '@vue/reactivity';
 
 describe('test20', () => {
   it('get DemoService instance', async () => {

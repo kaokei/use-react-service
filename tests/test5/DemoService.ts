@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed } from '@vue/reactivity';
 import { TYPES } from './token';
 import { Inject, PostConstruct, TokenType } from '@/index';
 

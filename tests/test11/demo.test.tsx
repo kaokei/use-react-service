@@ -3,7 +3,7 @@ import DemoComp from './DemoComp.vue';
 import { DemoService } from './DemoService';
 import { router, TYPES } from './router';
 import { declareRootProviders, useRootService } from '@/index';
-import { markRaw, App } from 'vue';
+import { markRaw, App } from '@vue/reactivity';
 import { useRoute } from 'vue-router';
 
 describe('test11', () => {

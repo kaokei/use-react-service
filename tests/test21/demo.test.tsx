@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import DemoComp from './DemoComp.vue';
 import { getEffectScope } from '@/index';
-import { onScopeDispose } from 'vue';
+import { onScopeDispose } from '@vue/reactivity';
 
 describe('test19', () => {
   it('get DemoService instance', async () => {
