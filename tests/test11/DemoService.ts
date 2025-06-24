@@ -1,5 +1,5 @@
-import { Inject } from '@/index';
-import { TYPES } from './router';
+import { Inject, TokenType } from '@/index';
+import { TYPES } from './types';
 
 export class DemoService {
   public count = 1;
@@ -9,8 +9,8 @@ export class DemoService {
   }
 
   @Inject(TYPES.route)
-  public route: any;
+  public route!: TokenType<typeof TYPES.route>;
 
   @Inject(TYPES.router)
-  public router: any;
+  public router!: TokenType<typeof TYPES.router>;
 }

@@ -1,3 +1,1 @@
-<template>
-  <div>AboutView</div>
-</template>
+export default () => <div>AboutView</div>;

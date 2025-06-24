@@ -1,25 +1,18 @@
-import {
-  createWebHistory,
-  createRouter,
-  Router,
-  RouteLocationNormalizedLoaded,
-} from 'vue-router';
-import { Token } from '@/index';
+import { createBrowserRouter } from 'react-router';
 
-import HomeView from './HomeView.vue';
-import AboutView from './AboutView.vue';
+import DemoComp from './DemoComp.tsx';
+import HomeView from './HomeView.tsx';
+import AboutView from './AboutView.tsx';
 
 const routes = [
-  { path: '/', component: HomeView },
-  { path: '/about', component: AboutView },
+  {
+    path: '/',
+    Component: DemoComp,
+    children: [
+      { index: true, Component: HomeView },
+      { path: 'about', Component: AboutView },
+    ],
+  },
 ];
 
-export const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-export const TYPES = {
-  route: new Token<RouteLocationNormalizedLoaded>('route001'),
-  router: new Token<Router>('router001'),
-};
+export const router = createBrowserRouter(routes);
