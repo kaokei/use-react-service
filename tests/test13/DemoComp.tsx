@@ -1,25 +1,31 @@
-<script setup lang="ts">
+import React from 'react';
 import { DemoService } from './DemoService';
 import { useService } from '@/index';
 
-defineProps({
-  msg: String,
-});
+export interface CompProps {
+  msg?: string;
+}
 
-const service = useService(DemoService);
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
 
-defineExpose({
-  service,
-});
-</script>
+const Comp: React.FC<CompProps> = ({ msg }) => {
+  const service = useService(DemoService, selectorDemoService);
 
-<template>
-  <div>
-    <div class="msg">{{ msg }}</div>
-    <div class="count">{{ service.count }}</div>
+  return (
+    <div>
+      <div data-testid="msg">{msg}</div>
+      <div data-testid="count">{service.count}</div>
+      <button
+        type="button"
+        data-testid="btn-count"
+        onClick={() => service.increaseCount()}
+      >
+        Add count
+      </button>
+    </div>
+  );
+};
 
-    <button type="button" class="btn-count" @click="service.increaseCount()">
-      Add count
-    </button>
-  </div>
-</template>
+export default Comp;

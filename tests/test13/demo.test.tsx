@@ -1,16 +1,11 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
+import { render } from '@testing-library/react';
+import DemoComp from './DemoComp';
 
 describe('test13', () => {
   it('get DemoService instance', async () => {
     const msg = 'Hello world';
-
     expect(() => {
-      mount(DemoComp, {
-        props: {
-          msg,
-        },
-      });
+      render(<DemoComp msg={msg} />);
     }).toThrow('No matching binding found for token: DemoService');
   });
 });
