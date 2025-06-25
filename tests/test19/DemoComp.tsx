@@ -1,60 +1,49 @@
-<script setup lang="ts">
-import { declareProviders, useService, CURRENT_COMPONENT } from '@/index';
+import React from 'react';
+import { declareProviders, useService } from '@/index';
 import { DemoService } from './DemoService';
-import ChildComp from './ChildComp.vue';
-import { getCurrentInstance } from 'vue';
+import ChildComp from './ChildComp';
 
-declareProviders([DemoService]);
-const demoService = useService(DemoService);
+export interface CompProps {}
 
-const component1 = useService(CURRENT_COMPONENT);
-const component2 = getCurrentInstance();
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
 
-defineExpose({
-  demoService,
-  component1,
-  component2,
-});
-</script>
+const Comp: React.FC<CompProps> = () => {
+  const demoService = useService(DemoService, selectorDemoService);
 
-<template>
-  <div>
-    <div class="demo-count">{{ demoService.count }}</div>
-
-    <button
-      type="button"
-      class="btn-count-demo"
-      @click="demoService.increaseCount()"
-    >
-      Add count demo
-    </button>
-  </div>
-
-  <div class="child-1-container">
-    <div class="child-1-wrapper">
-      <ChildComp>
-        <p>001</p>
-        <p>002</p>
-        <p>003</p>
-      </ChildComp>
-    </div>
-  </div>
-
-  <div class="child-2-container">
-    <div class="child-2-wrapper">
-      <div class="child-2-box">
+  return (
+    <div>
+      <div data-testid="demo-count">{demoService.count}</div>
+      <button
+        type="button"
+        data-testid="btn-count-demo"
+        onClick={() => demoService.increaseCount()}
+      >
+        Add count demo
+      </button>
+      <div className="child-1-container">
+        <div className="child-1-wrapper">
+          <ChildComp>
+            <p>001</p>
+            <p>002</p>
+            <p>003</p>
+          </ChildComp>
+        </div>
+      </div>
+      <div className="child-2-container">
+        <div className="child-2-wrapper">
+          <div className="child-2-box">
+            <ChildComp />
+          </div>
+        </div>
+      </div>
+      <div className="child-3-container">
+        {/* 深层嵌套演示，可根据实际需要添加更多逻辑 */}
         <ChildComp />
       </div>
     </div>
-  </div>
+  );
+};
 
-  <div class="child-3-container">
-    <Suspense>
-      <!-- 具有深层异步依赖的组件 -->
-      <ChildComp />
-
-      <!-- 在 #fallback 插槽中显示 “正在加载中” -->
-      <template #fallback> Loading... </template>
-    </Suspense>
-  </div>
-</template>
+export default declareProviders([DemoService])(Comp);

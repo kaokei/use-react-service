@@ -1,29 +1,31 @@
-<script setup lang="ts">
+import React from 'react';
 import { declareProviders, useService } from '@/index';
 import { ChildService } from './ChildService';
 
-declareProviders([ChildService]);
-const childService = useService(ChildService);
+export interface CompProps {
+  children?: React.ReactNode;
+}
 
-defineExpose({
-  childService,
-});
-</script>
+function selectorChildService(s: ChildService) {
+  return [() => s.count];
+}
 
-<template>
-  <div>
-    <div class="child-count">{{ childService.count }}</div>
+const Comp: React.FC<CompProps> = ({ children }) => {
+  const childService = useService(ChildService, selectorChildService);
 
-    <button
-      type="button"
-      class="btn-count-child"
-      @click="childService.increaseCount()"
-    >
-      Add count child
-    </button>
-
+  return (
     <div>
-      <slot>default content</slot>
+      <div data-testid="child-count">{childService.count}</div>
+      <button
+        type="button"
+        data-testid="btn-count-child"
+        onClick={() => childService.increaseCount()}
+      >
+        Add count child
+      </button>
+      <div>{children || 'default content'}</div>
     </div>
-  </div>
-</template>
+  );
+};
+
+export default declareProviders([ChildService])(Comp);
