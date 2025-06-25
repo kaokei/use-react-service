@@ -1,36 +1,22 @@
-import { mount } from '@vue/test-utils';
-import {
-  declareRootProviders,
-  useService,
-  useRootService,
-} from '@/index';
-import DemoComp from './DemoComp.vue';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp.tsx';
+import { declareRootProviders, useRootService } from '@/index';
 import { DemoService } from './DemoService';
-import { App } from 'vue';
 
 describe('test16', () => {
-  it('get DemoService instance', async () => {
+  it('should render count correctly and update count on click', () => {
     declareRootProviders([DemoService]);
     const rootDemoService = useRootService(DemoService);
-    let appDemoService: DemoService | undefined = undefined;
-    const wrapper = mount(DemoComp, {
-      global: {
-        plugins: [
-          (app: App) => {
-            app.runWithContext(() => {
-              appDemoService = useService(DemoService);
-            });
-          },
-        ],
-      },
-    });
+    expect(rootDemoService.count).toBe(1);
 
-    expect(rootDemoService).toBeInstanceOf(DemoService);
-    expect(appDemoService).toBeInstanceOf(DemoService);
-    expect(rootDemoService).toBe(appDemoService);
+    render(<DemoComp />);
+    const countNode = screen.getByTestId('count');
+    const btnCountNode = screen.getByTestId('btn-count');
 
-    expect(wrapper.vm.service).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.service).not.toBe(appDemoService);
-    expect(wrapper.vm.service).not.toBe(rootDemoService);
+    expect(countNode).toHaveExactText('1');
+    fireEvent.click(btnCountNode);
+    expect(countNode).toHaveExactText('2');
+    fireEvent.click(btnCountNode);
+    expect(countNode).toHaveExactText('3');
   });
 });

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { PostConstruct } from '@/index';
 import { declareProviders } from '@/index';
 import DemoComp from './DemoComp.tsx';
