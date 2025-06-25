@@ -1,41 +1,45 @@
-<script setup lang="ts">
+import React from 'react';
 import { declareProviders, useService } from '@/index';
 import { DemoService } from './DemoService';
 import { OtherService } from './OtherService';
 import { TYPES } from './token';
 
-declareProviders(con => {
+export interface CompProps {}
+
+function selectorDemoService(s: DemoService) {
+  return [() => s.count];
+}
+function selectorOtherService(s: OtherService) {
+  return [() => s.count];
+}
+
+const Comp: React.FC<CompProps> = () => {
+  const demoService = useService(TYPES.DemoService, selectorDemoService);
+  const otherService = useService(TYPES.OtherService, selectorOtherService);
+
+  return (
+    <div>
+      <div data-testid="demo-count">{demoService.count}</div>
+      <div data-testid="other-count">{otherService.count}</div>
+      <button
+        type="button"
+        data-testid="btn-count-demo"
+        onClick={() => demoService.increaseCount()}
+      >
+        Add count demo
+      </button>
+      <button
+        type="button"
+        data-testid="btn-count-other"
+        onClick={() => otherService.increaseCount()}
+      >
+        Add count other
+      </button>
+    </div>
+  );
+};
+
+export default declareProviders(con => {
   con.bind(TYPES.DemoService).to(DemoService);
   con.bind(TYPES.OtherService).to(OtherService);
-});
-const demoService = useService(TYPES.DemoService);
-const otherService = useService(TYPES.OtherService);
-
-defineExpose({
-  demoService,
-  otherService,
-});
-</script>
-
-<template>
-  <div>
-    <div class="demo-count">{{ demoService.count }}</div>
-    <div class="other-count">{{ otherService.count }}</div>
-
-    <button
-      type="button"
-      class="btn-count-demo"
-      @click="demoService.increaseCount()"
-    >
-      Add count demo
-    </button>
-
-    <button
-      type="button"
-      class="btn-count-other"
-      @click="otherService.increaseCount()"
-    >
-      Add count other
-    </button>
-  </div>
-</template>
+})(Comp);
