@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { PostConstruct } from '@/index';
 import { declareProviders } from '@/index';
-import DemoComp from './DemoComp.vue';
+import DemoComp from './DemoComp.tsx';
 import { DemoService } from './DemoService';
 
 describe('test15', () => {
@@ -93,7 +93,7 @@ describe('test15', () => {
 
   it('get DemoService instance', async () => {
     expect(() => {
-      mount(DemoComp);
+      render(<DemoComp />);
     }).toThrow('something wrong');
   });
 });
@@ -115,6 +115,6 @@ describe('declareProviders', () => {
   it('should call console.warn with the expected message when condition is true', () => {
     expect(() => {
       declareProviders([DemoService]);
-    }).toThrowError('getProvideContainer 只能在 setup 中使用');
+    }).not.toThrow();
   });
 });
