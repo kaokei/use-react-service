@@ -1,40 +1,61 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp.tsx';
+import { declareProviders, declareRootProviders } from '@/index';
 import { DemoService } from './DemoService';
 import { OtherService } from './OtherService';
-import { App } from 'vue';
-import { useAppService, declareAppProvidersPlugin } from '@/index';
 
 describe('test17', () => {
   it('get DemoService instance', async () => {
     expect(() => {
-      mount(DemoComp);
+      render(<DemoComp />);
     }).toThrowError('No matching binding found for token: DemoService');
   });
 
-  it('get DemoService instance', async () => {
-    let rootApp!: App;
+  it('should render and update demoService and otherService count correctly', () => {
+    declareRootProviders([DemoService, OtherService]);
+    render(<DemoComp />);
+    const demoCountNode = screen.getByTestId('demo-count');
+    const otherCountNode = screen.getByTestId('other-count');
+    const btnDemo = screen.getByTestId('btn-count-demo');
+    const btnOther = screen.getByTestId('btn-count-other');
 
-    const wrapper = mount(DemoComp, {
-      global: {
-        plugins: [
-          (app: App) => {
-            rootApp = app;
-          },
-          declareAppProvidersPlugin([DemoService, OtherService]),
-        ],
-      },
-    });
+    expect(demoCountNode).toHaveExactText('1');
+    expect(otherCountNode).toHaveExactText('1');
 
-    const demoService = useAppService(DemoService, rootApp);
-    const otherService = useAppService(OtherService, rootApp);
+    fireEvent.click(btnDemo);
+    expect(demoCountNode).toHaveExactText('2');
+    expect(otherCountNode).toHaveExactText('1');
 
-    expect(wrapper.vm.demoService).toBeInstanceOf(DemoService);
-    expect(wrapper.vm.otherService).toBeInstanceOf(OtherService);
+    fireEvent.click(btnOther);
+    expect(demoCountNode).toHaveExactText('2');
+    expect(otherCountNode).toHaveExactText('2');
 
-    expect(wrapper.vm.demoService).toBe(demoService);
-    expect(wrapper.vm.otherService).not.toBe(otherService);
+    fireEvent.click(btnDemo);
+    expect(demoCountNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('2');
+  });
 
-    rootApp.unmount();
+  it('should render and update demoService and otherService count correctly', () => {
+    const App = declareProviders([DemoService, OtherService])(DemoComp);
+    render(<App />);
+    const demoCountNode = screen.getByTestId('demo-count');
+    const otherCountNode = screen.getByTestId('other-count');
+    const btnDemo = screen.getByTestId('btn-count-demo');
+    const btnOther = screen.getByTestId('btn-count-other');
+
+    expect(demoCountNode).toHaveExactText('1');
+    expect(otherCountNode).toHaveExactText('1');
+
+    fireEvent.click(btnDemo);
+    expect(demoCountNode).toHaveExactText('2');
+    expect(otherCountNode).toHaveExactText('1');
+
+    fireEvent.click(btnOther);
+    expect(demoCountNode).toHaveExactText('2');
+    expect(otherCountNode).toHaveExactText('2');
+
+    fireEvent.click(btnDemo);
+    expect(demoCountNode).toHaveExactText('3');
+    expect(otherCountNode).toHaveExactText('2');
   });
 });
