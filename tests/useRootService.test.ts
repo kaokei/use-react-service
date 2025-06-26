@@ -17,9 +17,9 @@ describe('App', () => {
     };
     const key2 = new Token<typeof value2>('tokenKey2');
 
-    declareRootProviders(c => {
-      c.bind(key1).toConstantValue(value1);
-      c.bind(key2).toConstantValue(value2);
+    declareRootProviders(con => {
+      con.bind(key1).toConstantValue(value1);
+      con.bind(key2).toConstantValue(value2);
     });
 
     const service1 = useRootService(key1);

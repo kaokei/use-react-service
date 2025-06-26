@@ -1,27 +1,29 @@
-<script setup lang="ts">
+import React from 'react';
 import { declareProviders, useService } from '@/index';
 import { DemoService } from './DemoService';
 
-declareProviders([DemoService]);
-const demoService = useService(DemoService);
+export interface CompProps {}
 
-defineExpose({
-  demoService,
-});
-</script>
+function selectorDemoService(s: DemoService) {
+  return [() => s.count, () => s.sum];
+}
 
-<template>
-  <div>
-    <div class="demo-count">{{ demoService.count }}</div>
+const Comp: React.FC<CompProps> = () => {
+  const demoService = useService(DemoService, selectorDemoService);
 
-    <div class="demo-sum">{{ demoService.sum }}</div>
+  return (
+    <div>
+      <div data-testid="demo-count">{demoService.count}</div>
+      <div data-testid="demo-sum">{demoService.sum}</div>
+      <button
+        type="button"
+        data-testid="btn-count-demo"
+        onClick={() => demoService.increaseCount()}
+      >
+        Add count demo
+      </button>
+    </div>
+  );
+};
 
-    <button
-      type="button"
-      class="btn-count-demo"
-      @click="demoService.increaseCount()"
-    >
-      Add count demo
-    </button>
-  </div>
-</template>
+export default declareProviders([DemoService])(Comp);

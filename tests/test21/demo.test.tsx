@@ -1,34 +1,20 @@
-import { mount } from '@vue/test-utils';
-import DemoComp from './DemoComp.vue';
-import { getEffectScope } from '@/index';
-import { onScopeDispose } from '@vue/reactivity';
+import { render, screen, fireEvent } from '@testing-library/react';
+import DemoComp from './DemoComp';
 
-describe('test19', () => {
-  it('get DemoService instance', async () => {
-    const wrapper = mount(DemoComp);
+describe('test21', () => {
+  it('should render and update demoService count and sum correctly', () => {
+    render(<DemoComp />);
+    const countNode = screen.getByTestId('demo-count');
+    const sumNode = screen.getByTestId('demo-sum');
+    const btn = screen.getByTestId('btn-count-demo');
 
-    const demoService = wrapper.vm.demoService;
-    const scope = getEffectScope(demoService);
-    const onScopeDisposeFn = vi.fn();
+    // 初始值
+    expect(countNode).toHaveExactText('1');
+    expect(sumNode).toHaveExactText('101');
 
-    scope.run(() => {
-      onScopeDispose(onScopeDisposeFn);
-    });
-
-    expect(scope.active).toBe(true);
-    expect(onScopeDisposeFn).not.toHaveBeenCalled();
-
-    expect(wrapper.get('.demo-count').text()).toBe('1');
-    expect(wrapper.get('.demo-sum').text()).toBe('101');
-
-    await wrapper.get('.btn-count-demo').trigger('click');
-
-    expect(wrapper.get('.demo-count').text()).toBe('2');
-    expect(wrapper.get('.demo-sum').text()).toBe('102');
-
-    wrapper.unmount();
-
-    expect(scope.active).toBe(false);
-    expect(onScopeDisposeFn).toHaveBeenCalledOnce();
+    // 点击后变化
+    fireEvent.click(btn);
+    expect(countNode).toHaveExactText('2');
+    expect(sumNode).toHaveExactText('102');
   });
 });
