@@ -5,6 +5,10 @@ import { bindProviders } from './utils.ts';
 import { CONTAINER_CONTEXT, DEFAULT_CONTAINER } from './constants.ts';
 import type { Provider } from './interface.ts';
 
+/**
+ * 必须在组件内部使用
+ * 并且可以通过selector来监听服务实例的变化，从而实现自动更新组件
+ */
 export function useService<T>(
   token: CommonToken<T>,
   selector?: (service: T) => WatchSource | WatchSource[]
@@ -40,8 +44,10 @@ export function useService<T>(
 
   return instance.current;
 }
-
-export function useRootService<T>(token: CommonToken<T>) {
+/**
+ * 不是hooks方法，不建议在组件内部使用，不提供响应式更新能力
+ */
+export function getRootService<T>(token: CommonToken<T>) {
   return DEFAULT_CONTAINER.get(token);
 }
 

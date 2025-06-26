@@ -6,7 +6,7 @@ export { FIND_CHILD_SERVICE, FIND_CHILDREN_SERVICES } from './constants.ts';
 
 export { declareProviders } from './declare-providers.tsx';
 
-export { declareRootProviders, useService, useRootService } from './core.ts';
+export { declareRootProviders, useService, getRootService } from './core.ts';
 
 export { Computed } from './computed.ts';
 

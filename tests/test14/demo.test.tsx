@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import DemoComp from './DemoComp';
-import { useRootService } from '@/index';
+import { getRootService } from '@/index';
 import { DemoService } from './DemoService';
 
 describe('test14', () => {
@@ -22,7 +22,7 @@ describe('test14', () => {
     expect(countNode).toHaveExactText('3');
 
     expect(() => {
-      useRootService(DemoService);
+      getRootService(DemoService);
     }).toThrow('No matching binding found for token: DemoService');
   });
 });

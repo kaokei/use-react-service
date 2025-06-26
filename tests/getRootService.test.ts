@@ -1,13 +1,13 @@
 import {
   declareRootProviders,
-  useRootService,
+  getRootService,
   isReactive,
   isRef,
   Token,
 } from '@/index';
 
 describe('App', () => {
-  test('declareRootProviders and useRootService', async () => {
+  test('declareRootProviders and getRootService', async () => {
     const value1 = 'tokenValue1';
     const key1 = new Token<typeof value1>('tokenKey1');
 
@@ -22,8 +22,8 @@ describe('App', () => {
       con.bind(key2).toConstantValue(value2);
     });
 
-    const service1 = useRootService(key1);
-    const service2 = useRootService(key2);
+    const service1 = getRootService(key1);
+    const service2 = getRootService(key2);
 
     expect(service1).toBe(value1);
     expect(isReactive(service1)).toBe(false);

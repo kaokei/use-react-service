@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import DemoComp from './DemoComp';
 import {
-  useRootService,
+  getRootService,
   FIND_CHILD_SERVICE,
   FIND_CHILDREN_SERVICES,
 } from '@/index';
@@ -11,8 +11,8 @@ describe('test19', () => {
   it('should render and update demoService and all childService counts correctly', () => {
     render(<DemoComp />);
 
-    const findChildService = useRootService(FIND_CHILD_SERVICE);
-    const findChildrenServices = useRootService(FIND_CHILDREN_SERVICES);
+    const findChildService = getRootService(FIND_CHILD_SERVICE);
+    const findChildrenServices = getRootService(FIND_CHILDREN_SERVICES);
     const childService = findChildService(ChildService);
     const childServiceList = findChildrenServices(ChildService);
 

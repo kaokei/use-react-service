@@ -15,7 +15,7 @@ export const FIND_CHILDREN_SERVICES = new Token<FindChildrenServices>(
 // 每个实例对象自身维护的effectScope的key
 export const SCOPE_KEY = Symbol();
 
-// 默认Container，对应declareRootProviders/useRootService
+// 默认Container，对应declareRootProviders/getRootService
 export const DEFAULT_CONTAINER = createContainer();
 
 // 用于绑定组件和容器

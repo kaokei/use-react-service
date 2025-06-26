@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import DemoComp from './DemoComp.tsx';
-import { declareRootProviders, useRootService } from '@/index';
+import { declareRootProviders, getRootService } from '@/index';
 import { DemoService } from './DemoService';
 
 describe('test16', () => {
   it('should render count correctly and update count on click', () => {
     declareRootProviders([DemoService]);
-    const rootDemoService = useRootService(DemoService);
+    const rootDemoService = getRootService(DemoService);
     expect(rootDemoService.count).toBe(1);
 
     render(<DemoComp />);
