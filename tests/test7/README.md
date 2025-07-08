@@ -17,13 +17,14 @@
 
 多层次服务注册机制对于大型应用架构设计具有重要价值：
 
-1. 根级别服务(RootService)适用于整个应用共享的全局服务，如身份验证、主题配置等
-2. 应用级别服务(AppService)适用于特定功能模块内共享的服务
-3. 组件级别服务(DemoService)适用于特定组件的专用逻辑
+1. 根级别服务(RootService)适用于整个应用共享的全局服务，如身份验证、主题配置等。
+2. 应用级别服务(AppService)适用于特定功能模块内共享的服务，这里的AppService其实也是一个组件级别的服务，只不过是根组件的服务，可以被任意子组件访问。
+3. 组件级别服务(DemoService)适用于特定组件的专用逻辑，也可以被其子组件访问。
 
 这种分层注册机制使应用架构更加清晰，并提供了灵活的服务生命周期和作用域管理，有助于构建复杂的企业级应用。
 
 ## 测试场景
 
-验证了 declareProviders 和 declareAppProviders 和 declareRootProviders
+验证了 declareProviders 和 declareRootProviders。
+
 declareRootProviders+getRootService 相当于验证了默认容器 DEFAULT_CONTAINER

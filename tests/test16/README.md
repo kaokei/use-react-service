@@ -27,5 +27,3 @@
 - 应用内事件总线和消息处理
 - API访问层的统一管理
 - 同步和异步业务逻辑的协调处理
-
-useService 在 app.runWithContext 中执行

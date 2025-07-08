@@ -23,4 +23,4 @@
 
 这种模式特别适用于大型应用，当需要在特定场景下为组件提供不同的服务实现时，可以在不改变组件自身的情况下实现。
 
-多次调用 declareAppProviders+useService
+多次调用 declareProviders+useService
