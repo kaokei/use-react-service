@@ -42,7 +42,7 @@
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "dev": "pnpm -F demo dev",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "preview:ui": "vite preview --outDir ./html",
