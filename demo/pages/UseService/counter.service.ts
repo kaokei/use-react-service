@@ -1,6 +1,3 @@
-import { Injectable } from '../../../../src';
-
-@Injectable()
 export class CounterService {
   count = 1;
 

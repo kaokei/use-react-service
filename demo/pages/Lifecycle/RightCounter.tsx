@@ -1,6 +1,6 @@
 import React from 'react';
 import { CounterService } from './counter.service';
-import { observer, useService } from '../../../../src';
+import { useService } from '../../../../src';
 
 export function RightCounter() {
   const counterService = useService(CounterService);
@@ -19,4 +19,4 @@ export function RightCounter() {
   );
 }
 
-export default observer(RightCounter);
+export default RightCounter;

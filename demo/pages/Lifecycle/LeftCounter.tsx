@@ -1,6 +1,6 @@
 import React from 'react';
 import { CounterService } from './counter.service';
-import { observer, useService } from '../../../../src';
+import { useService } from '../../../../src';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 
@@ -30,7 +30,7 @@ export function LeftCounter() {
     <div>
       <div>
         <b>LeftCounter: </b>
-        <button type="button" onClick={counterService.add}>
+        <button type="button" onClick={() => counterService.add()}>
           自增
         </button>
         <span>count=</span>
@@ -43,4 +43,4 @@ export function LeftCounter() {
   );
 }
 
-export default observer(LeftCounter);
+export default LeftCounter;

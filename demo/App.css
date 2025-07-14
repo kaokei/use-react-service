@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+nav a {
+  color: #333;
+}
+
+nav a.selected {
+  color: red;
+}
