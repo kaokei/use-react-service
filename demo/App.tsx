@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 
 import UseCount from './pages/UseCount/index';
-import TestSyncStore2 from './test/TestSyncStore2';
+import TestSyncStore2 from './pages/TestSyncStore/TestSyncStore2';
 import UseReact from './pages/UseReact/UseReact';
 import UseVue from './pages/UseVue/UseVue';
 import UseService from './pages/UseService/UseService';
@@ -57,7 +57,8 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" index element={<Home />} />
-        {/* <Route path="UseCount" element={<UseCount />} />
+        <Route path="UseCount" element={<UseCount />} />
+        {/*
           <Route path="TestSyncStore2" element={<TestSyncStore2 />} />
           <Route path="UseReact" element={<UseReact />} />
           <Route path="UseVue" element={<UseVue />} />

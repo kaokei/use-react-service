@@ -41,6 +41,12 @@
   color: #888;
 }
 
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 nav a {
   color: #333;
 }
@@ -48,3 +54,4 @@ nav a {
 nav a.active {
   color: #6850ff;
 }
+

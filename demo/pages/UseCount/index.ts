@@ -1,4 +1,4 @@
-import { declareProviders } from '@kaokei/use-react-service';
+import { declareProviders } from '@/index';
 import Count from './Count.tsx';
 import { CountService } from './CountService';
 

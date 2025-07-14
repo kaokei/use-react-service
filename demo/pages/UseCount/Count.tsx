@@ -1,19 +1,18 @@
-import { useService } from '@kaokei/use-react-service';
+import { useService } from '@/index';
 import { CountService } from './CountService';
-import { useCallback } from 'react';
+
+function selector(s: CountService) {
+  return [() => s.count];
+}
 
 function Count() {
-  const selector = useCallback((service: CountService) => {
-    return { newcount: service.count };
-  }, []);
-
   const countService = useService(CountService, selector);
 
   return (
     <>
       <h2>验证CountService</h2>
-      <button onClick={countService.increase}>
-        count is {countService.newcount}
+      <button onClick={() => countService.increase()}>
+        count is {countService.count}
       </button>
     </>
   );
