@@ -1,98 +1,70 @@
 import './App.css';
 
-import React from 'react';
-import { BrowserRouter, Switch, Route, NavLink } from 'react-router';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 
+import UseCount from './pages/UseCount/index';
+import TestSyncStore2 from './test/TestSyncStore2';
 import UseReact from './pages/UseReact/UseReact';
 import UseVue from './pages/UseVue/UseVue';
 import UseService from './pages/UseService/UseService';
 import UseSetup from './pages/UseSetup/UseSetup';
 import Lifecycle from './pages/Lifecycle/Lifecycle';
-import Count from './count';
-import TestSyncStore2 from './test/TestSyncStore2';
 
 function Home() {
-  return <h2>请选择各种例子查看效果</h2>;
+  return <h2>请选择不同的示例查看不同的效果</h2>;
+}
+
+function Header() {
+  return (
+    <nav>
+      <ol>
+        <li>
+          <NavLink end to="/">
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/UseCount">UseCount</NavLink>
+        </li>
+        <li>
+          <NavLink to="/TestSyncStore2">TestSyncStore2</NavLink>
+        </li>
+        <li>
+          <NavLink to="/UseReact">完全使用react实现的demo</NavLink>
+        </li>
+        <li>
+          <NavLink to="/UseVue">
+            直接使用useReactiveState和useReactiveVue
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/UseSetup">使用useSetup这个hooks</NavLink>
+        </li>
+        <li>
+          <NavLink to="/UseService">使用useService这个hooks</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Lifecycle">使用useService和useEffect</NavLink>
+        </li>
+      </ol>
+    </nav>
+  );
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <NavLink activeClassName="selected" exact to="/">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/Count">
-                Count
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/TestSyncStore2">
-                TestSyncStore2
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/UseReact">
-                完全使用react实现的demo
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/UseVue">
-                直接使用useReactiveState和useReactiveVue
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/UseSetup">
-                使用useSetup这个hooks
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/UseService">
-                使用useService这个hooks
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="selected" to="/Lifecycle">
-                使用useService和useEffect
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/Count">
-            <Count />
-          </Route>
-          <Route path="/TestSyncStore2">
-            <TestSyncStore2 />
-          </Route>
-          <Route path="/UseReact">
-            <UseReact />
-          </Route>
-          <Route path="/UseVue">
-            <UseVue />
-          </Route>
-          <Route path="/UseSetup">
-            <UseSetup />
-          </Route>
-          <Route path="/UseService">
-            <UseService />
-          </Route>
-          <Route path="/Lifecycle">
-            <Lifecycle />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
+      <Header />
+      <Routes>
+        <Route path="/" index element={<Home />} />
+        {/* <Route path="UseCount" element={<UseCount />} />
+          <Route path="TestSyncStore2" element={<TestSyncStore2 />} />
+          <Route path="UseReact" element={<UseReact />} />
+          <Route path="UseVue" element={<UseVue />} />
+          <Route path="UseSetup" element={<UseSetup />} />
+          <Route path="UseService" element={<UseService />} />
+          <Route path="Lifecycle" element={<Lifecycle />} /> */}
+      </Routes>
     </BrowserRouter>
   );
 }

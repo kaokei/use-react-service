@@ -2,7 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  align-self: flex-start;
 }
 
 .logo {
@@ -45,6 +45,6 @@ nav a {
   color: #333;
 }
 
-nav a.selected {
-  color: red;
+nav a.active {
+  color: #6850ff;
 }
