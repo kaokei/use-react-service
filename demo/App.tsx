@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 
 import UseCount from './pages/UseCount/index';
-import TestSyncStore2 from './pages/TestSyncStore/TestSyncStore2';
+import TestSyncStore from './pages/TestSyncStore/TestSyncStore';
 import UseReact from './pages/UseReact/UseReact';
 import UseVue from './pages/UseVue/UseVue';
 import UseService from './pages/UseService/UseService';
@@ -24,10 +24,10 @@ function Header() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/UseCount">UseCount</NavLink>
+          <NavLink to="/UseCount">验证CountService</NavLink>
         </li>
         <li>
-          <NavLink to="/TestSyncStore2">TestSyncStore2</NavLink>
+          <NavLink to="/TestSyncStore">测试useSyncExternalStore</NavLink>
         </li>
         <li>
           <NavLink to="/UseReact">完全使用react实现的demo</NavLink>
@@ -58,8 +58,8 @@ export default function App() {
       <Routes>
         <Route path="/" index element={<Home />} />
         <Route path="UseCount" element={<UseCount />} />
+        <Route path="TestSyncStore" element={<TestSyncStore />} />
         {/*
-          <Route path="TestSyncStore2" element={<TestSyncStore2 />} />
           <Route path="UseReact" element={<UseReact />} />
           <Route path="UseVue" element={<UseVue />} />
           <Route path="UseSetup" element={<UseSetup />} />

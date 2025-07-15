@@ -55,3 +55,18 @@ nav a.active {
   color: #6850ff;
 }
 
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}

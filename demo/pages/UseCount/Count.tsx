@@ -11,6 +11,7 @@ function Count() {
   return (
     <>
       <h2>验证CountService</h2>
+      <p>每次点击按钮，count会自动+1</p>
       <button onClick={() => countService.increase()}>
         count is {countService.count}
       </button>
