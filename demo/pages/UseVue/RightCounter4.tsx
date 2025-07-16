@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { observer, useReactiveState } from '../../../../src';
 
 export function RightCounter4() {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { CounterService } from '../counter.service';
 import { observer } from '../../../../../src';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import LeftCounterDefault, { LeftCounter2 } from './LeftCounter';
 import RightCounterDefault, { RightCounter2 } from './RightCounter';
 

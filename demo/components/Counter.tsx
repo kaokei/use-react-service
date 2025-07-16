@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import { observer } from '../../../src/observer';
 import { useReactiveState, useReactiveRef, useSetup } from '../../../src/hooks';

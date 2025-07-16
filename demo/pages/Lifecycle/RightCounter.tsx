@@ -1,4 +1,3 @@
-import React from 'react';
 import { CounterService } from './counter.service';
 import { useService } from '../../../../src';
 

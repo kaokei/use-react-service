@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Props {
   count: number;
   add: () => void;
@@ -10,11 +8,11 @@ export default function LeftCounter(props: Props) {
     <div>
       <div>
         <b>LeftCounter: </b>
+        <span>count=</span>
+        <span>{props.count}</span>
         <button type="button" onClick={props.add}>
           自增
         </button>
-        <span>count=</span>
-        <span>{props.count}</span>
       </div>
     </div>
   );

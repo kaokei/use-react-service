@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCounter } from './useCounter';
 
 export default function RightCounter() {
@@ -10,7 +9,9 @@ export default function RightCounter() {
         <b>RightCounter: </b>
         <span>count=</span>
         <span>{count}</span>
-        <button type="button" onClick={add}>自增</button>
+        <button type="button" onClick={add}>
+          自增
+        </button>
       </div>
     </div>
   );

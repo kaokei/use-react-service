@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { COUNTER_CONTEXT } from './context';
 
 export default function RightCounter() {
@@ -11,7 +11,7 @@ export default function RightCounter() {
         <span>count=</span>
         <span>{counter.count}</span>
         <button type="button" onClick={counter.add}>
-          自增 - 注意点击按钮无效
+          自增 - 注意点击按钮不会触发组件重新渲染
         </button>
       </div>
     </div>

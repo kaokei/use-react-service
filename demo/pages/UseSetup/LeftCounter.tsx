@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { observer, useSetup, ref, computed } from '../../../../src';
 

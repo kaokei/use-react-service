@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import LeftCounter from './LeftCounter';
 import RightCounter from './RightCounter';
@@ -14,9 +14,9 @@ export default function App() {
     count: counter.count,
     add: () => {
       console.log('add start', counter.count);
-      setCounter({
-        count: counter.count + 1,
-      });
+      setCounter(prev => ({
+        count: prev.count + 1,
+      }));
       console.log('add end', counter.count);
     },
   };

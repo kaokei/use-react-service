@@ -59,8 +59,8 @@ export default function App() {
         <Route path="/" index element={<Home />} />
         <Route path="UseCount" element={<UseCount />} />
         <Route path="TestSyncStore" element={<TestSyncStore />} />
+        <Route path="UseReact" element={<UseReact />} />
         {/*
-          <Route path="UseReact" element={<UseReact />} />
           <Route path="UseVue" element={<UseVue />} />
           <Route path="UseSetup" element={<UseSetup />} />
           <Route path="UseService" element={<UseService />} />

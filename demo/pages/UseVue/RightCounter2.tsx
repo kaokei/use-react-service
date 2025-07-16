@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCounter3 } from './useCounter';
 import { observer } from '../../../../src';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useCounter } from '../useCounter';
 
 import LeftCounter from './LeftCounter';
