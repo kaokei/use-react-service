@@ -14,6 +14,7 @@ export default function App() {
       <p>
         因为组件没有使用declareProviders绑定对应的服务，最终组件使用的是declareRootProviders绑定的服务，所以数据是共享的。
       </p>
+      <p>因为数据存储在root provider中，是独立于vue应用的，当切换不同菜单时，root provider中的数据并不会被清除。</p>
       <LeftCounterDefault></LeftCounterDefault>
       <RightCounterDefault></RightCounterDefault>
 
@@ -29,6 +30,7 @@ export default function App() {
       <p>
         因为组件没有使用declareProviders绑定对应的服务，最终组件使用的是declareRootProviders绑定的服务，所以数据和示例1是共享的。
       </p>
+      <p>因为数据存储在root provider中，是独立于vue应用的，当切换不同菜单时，root provider中的数据并不会被清除。</p>
       <LeftAndRightDefault></LeftAndRightDefault>
 
       <hr />

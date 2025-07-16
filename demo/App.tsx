@@ -51,10 +51,7 @@ export default function App() {
         <Route path="TestSyncStore" element={<TestSyncStore />} />
         <Route path="UseReact" element={<UseReact />} />
         <Route path="UseService" element={<UseService />} />
-        {/*
-
-
-          <Route path="Lifecycle" element={<Lifecycle />} /> */}
+        <Route path="Lifecycle" element={<Lifecycle />} />
       </Routes>
     </BrowserRouter>
   );

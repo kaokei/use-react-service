@@ -1,10 +1,14 @@
 import { CounterService } from './counter.service';
-import { useService } from '../../../../src';
+import { useService } from '@/index';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 
-export function LeftCounter() {
-  const counterService = useService(CounterService);
+function selector(s: CounterService) {
+  return [() => s.count];
+}
+
+export default function LeftCounter() {
+  const counterService = useService(CounterService, selector);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -16,10 +20,6 @@ export function LeftCounter() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log('log counterService.count =>', counterService.count);
-  }, [counterService.count]);
-
   const countMemo = useMemo(
     () => counterService.count + 100,
     [counterService.count]
@@ -29,17 +29,17 @@ export function LeftCounter() {
     <div>
       <div>
         <b>LeftCounter: </b>
-        <button type="button" onClick={() => counterService.add()}>
-          自增
-        </button>
+
         <span>count=</span>
         <span style={{ marginRight: 20 }}>{counterService.count}</span>
 
         <span>countMemo=</span>
         <span style={{ marginRight: 20 }}>{countMemo}</span>
+
+        <button type="button" onClick={() => counterService.add()}>
+          自增
+        </button>
       </div>
     </div>
   );
 }
-
-export default LeftCounter;

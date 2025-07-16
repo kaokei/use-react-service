@@ -49,11 +49,13 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{ width: '550px', marginBottom: '50px' }}>
       <h2>测试useSyncExternalStore</h2>
       <div className="flex flex-row items-center">
         <div>外部数据count = {value}</div>
-        <button className='ml-20' onClick={() => store.add100()}>ADD 100</button>
+        <button className="ml-20" onClick={() => store.add100()}>
+          ADD 100
+        </button>
       </div>
       <div>当前组件渲染次数 = {renderCount.current}</div>
     </div>
