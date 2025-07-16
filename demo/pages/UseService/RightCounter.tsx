@@ -1,8 +1,12 @@
 import { CounterService } from './counter.service';
-import { observer, useService } from '../../../../src';
+import { declareProviders, useService } from '@/index';
 
-export function RightCounter() {
-  const counterService = useService(CounterService);
+function selector(s: CounterService) {
+  return [() => s.count];
+}
+
+export default function RightCounter() {
+  const counterService = useService(CounterService, selector);
 
   return (
     <div>
@@ -18,6 +22,4 @@ export function RightCounter() {
   );
 }
 
-export default observer(RightCounter);
-
-export const RightCounter2 = observer([CounterService])(RightCounter);
+export const RightCounter2 = declareProviders([CounterService])(RightCounter);

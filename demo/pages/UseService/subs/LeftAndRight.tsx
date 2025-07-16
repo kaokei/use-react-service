@@ -1,10 +1,10 @@
 import { CounterService } from '../counter.service';
-import { observer } from '../../../../../src';
+import { declareProviders } from '@/index';
 
 import LeftCounter from './LeftCounter';
 import RightCounter from './RightCounter';
 
-export function LeftAndRight() {
+export default function LeftAndRight() {
   return (
     <div>
       <LeftCounter></LeftCounter>
@@ -13,4 +13,4 @@ export function LeftAndRight() {
   );
 }
 
-export default observer([CounterService])(LeftAndRight);
+export const LeftAndRight2 = declareProviders([CounterService])(LeftAndRight);

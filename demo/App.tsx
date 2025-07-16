@@ -5,9 +5,7 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
 import UseCount from './pages/UseCount/index';
 import TestSyncStore from './pages/TestSyncStore/TestSyncStore';
 import UseReact from './pages/UseReact/UseReact';
-import UseVue from './pages/UseVue/UseVue';
 import UseService from './pages/UseService/UseService';
-import UseSetup from './pages/UseSetup/UseSetup';
 import Lifecycle from './pages/Lifecycle/Lifecycle';
 
 function Home() {
@@ -33,14 +31,6 @@ function Header() {
           <NavLink to="/UseReact">完全使用react实现的demo</NavLink>
         </li>
         <li>
-          <NavLink to="/UseVue">
-            直接使用useReactiveState和useReactiveVue
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/UseSetup">使用useSetup这个hooks</NavLink>
-        </li>
-        <li>
           <NavLink to="/UseService">使用useService这个hooks</NavLink>
         </li>
         <li>
@@ -60,10 +50,10 @@ export default function App() {
         <Route path="UseCount" element={<UseCount />} />
         <Route path="TestSyncStore" element={<TestSyncStore />} />
         <Route path="UseReact" element={<UseReact />} />
+        <Route path="UseService" element={<UseService />} />
         {/*
-          <Route path="UseVue" element={<UseVue />} />
-          <Route path="UseSetup" element={<UseSetup />} />
-          <Route path="UseService" element={<UseService />} />
+
+
           <Route path="Lifecycle" element={<Lifecycle />} /> */}
       </Routes>
     </BrowserRouter>

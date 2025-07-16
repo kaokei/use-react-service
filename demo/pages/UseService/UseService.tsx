@@ -1,29 +1,42 @@
+import { declareRootProviders } from '@/core';
 import LeftCounterDefault, { LeftCounter2 } from './LeftCounter';
 import RightCounterDefault, { RightCounter2 } from './RightCounter';
 
-import LeftAndRightDefault, { LeftAndRight } from './subs/LeftAndRight';
+import LeftAndRightDefault, { LeftAndRight2 } from './subs/LeftAndRight';
+import { CounterService } from './counter.service';
+
+declareRootProviders([CounterService]);
 
 export default function App() {
   return (
-    <div>
-      <h3>示例1：使用useService</h3>
-      <p>默认是共享数据的</p>
+    <div style={{ width: '550px', marginBottom: '50px' }}>
+      <h3>示例1：测试declareRootProviders</h3>
+      <p>
+        因为组件没有使用declareProviders绑定对应的服务，最终组件使用的是declareRootProviders绑定的服务，所以数据是共享的。
+      </p>
       <LeftCounterDefault></LeftCounterDefault>
       <RightCounterDefault></RightCounterDefault>
 
       <hr />
-      <h3>示例2：使用observer配置providers从而隔离状态</h3>
+      <h3>
+        示例2：LeftCounter和RightCounter都使用了declareProviders绑定了服务，所以数据是独立的。
+      </h3>
       <LeftCounter2></LeftCounter2>
       <RightCounter2></RightCounter2>
 
       <hr />
-      <h3>示例3：在父组件中配置providres从而不使用默认的根Injector</h3>
+      <h3>示例3：测试declareRootProviders，和示例1相同</h3>
+      <p>
+        因为组件没有使用declareProviders绑定对应的服务，最终组件使用的是declareRootProviders绑定的服务，所以数据和示例1是共享的。
+      </p>
       <LeftAndRightDefault></LeftAndRightDefault>
 
+      <hr />
+      <h3>示例4：测试declareProviders</h3>
       <p>
-        注意下面的组件没有配置providers导致使用的是根Injector，所以和示例1是共享数据的
+        因为父组件使用了declareProviders绑定了服务，所以LeftCounter组件和RightCounter组件的数据是共享的。
       </p>
-      <LeftAndRight></LeftAndRight>
+      <LeftAndRight2></LeftAndRight2>
     </div>
   );
 }

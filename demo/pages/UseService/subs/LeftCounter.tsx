@@ -1,23 +1,23 @@
 import { CounterService } from '../counter.service';
-import { observer, useService } from '../../../../../src';
-import { SERVICE_CONTEXT } from '../../../../../src/constants';
+import { useService } from '@/index';
 
-export function LeftCounter() {
-  console.log('enter LeftCounter', SERVICE_CONTEXT);
-  const counterService = useService(CounterService);
+function selector(s: CounterService) {
+  return [() => s.count];
+}
+
+export default function LeftCounter() {
+  const counterService = useService(CounterService, selector);
 
   return (
     <div>
       <div>
         <b>LeftCounter: </b>
+        <span>count=</span>
+        <span>{counterService.count}</span>
         <button type="button" onClick={counterService.add.bind(counterService)}>
           自增
         </button>
-        <span>count=</span>
-        <span>{counterService.count}</span>
       </div>
     </div>
   );
 }
-
-export default observer(LeftCounter);
