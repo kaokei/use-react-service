@@ -36,10 +36,7 @@ export function useService<T>(
         watch(watchSource, forceUpdate);
       }
     });
-    return () => {
-      scope.stop();
-      instance.current = null;
-    };
+    return () => scope.stop();
   }, []);
 
   return instance.current;
