@@ -9,10 +9,10 @@ hero:
   actions:
     - theme: brand
       text: Guide
-      link: /guide/README
+      link: /guide/
     - theme: alt
       text: API
-      link: /api/README
+      link: /api/
 
 features:
   - title: 深度 DI 集成​
