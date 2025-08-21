@@ -112,7 +112,7 @@ const findService = useService(FIND_CHILD_SERVICE);
 const counterService = findService(CounterService);
 ```
 
-首先通过 useService 获取一个工具方法，该工具方法用于查找当前组件的子孙组件中绑定的 token 服务。返回找到的第一个服务实例。
+首先通过 useService 获取一个工具方法，该工具方法用于查找当前组件的子孙组件中指定的服务。返回找到的第一个服务实例。
 
 FIND_CHILD_SERVICE 本身是一个 token，所以也可以用在服务中。
 
@@ -138,7 +138,9 @@ const findAllService = useService(FIND_CHILDREN_SERVICES);
 const counterServiceList = findAllService(CounterService);
 ```
 
-功能同上，返回指定 token 服务的多个实例组成的数组。FIND_CHILDREN_SERVICES 本身是一个 token，所以也可以用在服务中。
+功能同上，返回指定服务的多个实例组成的数组。
+
+FIND_CHILDREN_SERVICES 本身是一个 token，所以也可以用在服务中。
 
 ```ts
 class DemoService {
